@@ -1,61 +1,46 @@
-# 9103-tut5-group6
-# Quiz 9 – Final Project Pitch
+## Time-based Mechanic – Wanni Xiang
 
-## Project Title
+My part focuses on the **time-based mechanic** of our abstract composition. I use time to control how different geometric elements appear and move on the canvas. Instead of showing the whole artwork at once, my code makes the composition build up gradually, so it feels like the abstract image is being generated live.
 
-**Dynamic Abstract Composition**
+### What my mechanic does
 
----
+My time-based mechanic includes three main effects:
 
-## Part 1: Project Direction
+1. **Lines gradually appear**
 
-### Project Path
+   * The diagonal lines are drawn from their starting points to their ending points over time.
+   * This creates the feeling that the composition is being constructed step by step.
 
-Our team has chosen to **reinterpret an existing artwork**.
+2. **Circles gently pulse**
 
-### Existing Artwork
+   * Some circles slowly become larger and smaller.
+   * This adds subtle movement and makes the static geometric shapes feel more alive.
 
-Our project is inspired by an abstract composition in the style of **Wassily Kandinsky**, using circles, lines, triangles, grids, arcs, and geometric arrangements.
+3. **Arcs slowly rotate**
 
-### Project Vision
+   * Some curved elements rotate over time.
+   * This adds rhythm and motion to the abstract composition.
 
-Our project will reinterpret this abstract composition as a dynamic visual system. The original artwork uses circles, lines, triangles, grids, and arcs to create rhythm, movement, and balance. Instead of copying the image exactly, we want to bring these visual elements to life through code. Circles can pulse, lines can appear one by one, arcs can rotate, and small shapes can respond to sound, randomness, time, and user input. Our goal is to make the artwork feel like it is being constructed live on the screen. This allows the audience to see how simple geometric elements can build a complex and energetic composition.
+### How I implemented it in code
 
----
+I used `frameCount` to track time in the sketch. Since `frameCount` increases every frame, it is useful for controlling when shapes appear and how they move.
 
-## Part 2: Mechanics
+For the lines, I used `map()` and `lerp()` to gradually draw each line. `map()` changes the current frame number into a progress value between 0 and 1. Then `lerp()` uses that progress value to calculate the current endpoint of the line. This makes the line grow smoothly instead of appearing immediately.
 
-### Team Members and Mechanics
+For the pulsing circles, I used `sin(frameCount * 0.05)`. The `sin()` function creates a smooth repeating value, so the circle size can slowly increase and decrease. This creates a breathing effect.
 
-| Team Member | Mechanic |
-|---|---|
-| Name 1 | Audio |
-| Wanni Xiang | Time-based |
-| Name 3 | Perlin noise and randomness |
-| Name 4 | User input |
+For the rotating arcs, I used `push()`, `translate()`, `rotate()`, and `pop()`. `translate()` moves the rotation point to the centre of the arc, and `rotate(frameCount * 0.01)` makes the arc slowly turn over time. `push()` and `pop()` keep this rotation from affecting other shapes.
 
----
+### Coding techniques used
 
-## Time-based Mechanic
+* `frameCount` – controls timing and animation progress
+* `map()` – converts time into a useful range
+* `lerp()` – creates gradual line drawing
+* `sin()` – creates smooth pulsing movement
+* `rotate()` – creates slow rotation
+* `push()` and `pop()` – protect the drawing state
+* `arc()`, `circle()`, `line()`, and `triangle()` – recreate geometric elements from the original artwork
 
-My time-based mechanic will control how the abstract composition appears and moves over time. Instead of showing all shapes at once, the circles, lines, triangles, and arcs will appear in stages using `frameCount`. Some large circles will gently pulse using `sin()`, while selected arcs will slowly rotate to create movement. This helps the artwork feel like it is being constructed live on the canvas. The mechanic is practical because it uses simple p5.js functions such as `circle()`, `line()`, `triangle()`, `arc()`, `frameCount`, `sin()`, and `rotate()`.
+### Why this mechanic fits the project
 
-### Time-based References
-
-- [p5.js frameCount Reference](https://p5js.org/reference/p5/frameCount/) — Official p5.js documentation for tracking time by counting frames. Useful for making shapes appear in stages over time.
-- [p5.js sin() Reference](https://p5js.org/reference/p5/sin/) — Official p5.js documentation for sine wave motion. Useful for creating gentle pulsing effects for circles.
-- [p5.js rotate() Reference](https://p5js.org/reference/p5/rotate/) — Official p5.js documentation for rotating the coordinate system. Useful for rotating arcs or abstract shape groups.
-- [p5.js arc() Reference](https://p5js.org/reference/p5/arc/) — Official p5.js documentation for drawing arcs. Useful for recreating curved line elements from the original artwork.
-- [p5.js line() Reference](https://p5js.org/reference/p5/line/) — Official p5.js documentation for drawing straight lines. Useful for creating diagonal structures and connection lines.
-
----
-
-## Part 3: Putting It Together
-
-All four mechanics will share the same canvas and visual language based on the original abstract artwork. The composition will be built from circles, lines, triangles, arcs, grids, and colour blocks. The time-based mechanic controls how shapes appear and move, the audio mechanic changes visual intensity, the randomness mechanic adds variation, and user input allows viewers to add or influence shapes. Together, these mechanics will turn a static abstract composition into a dynamic digital artwork.
-
----
-
-## Final Concept Summary
-
-This project reinterprets an abstract geometric artwork as a live animated composition. We will use simple p5.js shapes and beginner-friendly coding techniques to create movement, sound response, randomness, and interaction. The final work will keep the visual spirit of the original image while transforming it into a digital system that changes over time.
+The original artwork uses many geometric shapes, lines, circles, arcs, and grids to create visual rhythm. My time-based mechanic keeps this visual language but adds motion. By making shapes appear, pulse, and rotate over time, the artwork becomes more dynamic while still staying close to the original abstract style.
