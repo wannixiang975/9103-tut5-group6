@@ -1,11 +1,13 @@
 function setup() {
   createCanvas(900, 600);
+
   angleMode(RADIANS);
 }
 
 function draw() {
   background(245, 238, 215);
 
+  // Draw different layers of the composition
   drawStaticShapes();
   drawPulsingCircles();
   drawAppearingLines();
@@ -13,33 +15,46 @@ function draw() {
   drawAppearingGrid();
 }
 
+// Draw basic static geometric shapes
+// These shapes help establish the visual style of the original abstract artwork
 function drawStaticShapes() {
   noStroke();
-  
+
   fill(230, 180, 40);
   triangle(560, 250, 690, 340, 490, 360);
+
   fill(40, 140, 190);
   circle(680, 210, 60);
+
   fill(220, 60, 55);
   circle(430, 160, 25);
+
   fill(120, 90, 170);
   circle(700, 470, 50);
 }
 
+// Use time to make circles gently grow and shrink
+// This creates a subtle pulsing effect
 function drawPulsingCircles() {
   let pulse = sin(frameCount * 0.05) * 12;
 
   noStroke();
+
   fill(20);
   circle(140, 120, 150 + pulse);
+
   fill(120, 60, 150);
   circle(140, 120, 75 + pulse * 0.5);
+
   fill(240, 200, 50);
   circle(120, 450, 70 + pulse * 0.7);
+
   fill(40, 150, 200);
   circle(360, 520, 60 + pulse * 0.6);
 }
 
+// Draw lines that appear gradually over time
+// Each line has a different start and end frame
 function drawAppearingLines() {
   stroke(20);
   strokeWeight(3);
@@ -56,6 +71,9 @@ function drawAppearingLines() {
   drawLineAppear(500, 420, 760, 460, 380, 440);
 }
 
+// Helper function for drawing a line progressively
+// map() turns frameCount into a progress value from 0 to 1
+// lerp() uses that progress value to calculate the current end point
 function drawLineAppear(x1, y1, x2, y2, startFrame, endFrame) {
   let amount = map(frameCount, startFrame, endFrame, 0, 1);
   amount = constrain(amount, 0, 1);
@@ -66,6 +84,8 @@ function drawLineAppear(x1, y1, x2, y2, startFrame, endFrame) {
   line(x1, y1, currentX, currentY);
 }
 
+// Rotate arc elements over time
+// push() and pop() keep the rotation from affecting other shapes
 function drawRotatingArcs() {
   noFill();
   stroke(30);
@@ -86,6 +106,8 @@ function drawRotatingArcs() {
   pop();
 }
 
+// Make a small grid appear after a delay
+// The grid fades in using alpha transparency
 function drawAppearingGrid() {
   if (frameCount < 220) {
     return;
@@ -101,6 +123,7 @@ function drawAppearingGrid() {
   let startY = 120;
   let spacing = 25;
 
+  // Draw vertical and horizontal grid lines
   for (let i = 0; i < 5; i++) {
     line(startX + i * spacing, startY, startX + i * spacing, startY + 100);
     line(startX, startY + i * spacing, startX + 100, startY + i * spacing);
