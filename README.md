@@ -31,8 +31,8 @@ Our project will reinterpret this abstract composition as a dynamic visual syste
 |---|---|
 | Yixin Liu | Audio |
 | Wanni Xiang | Time-based |
-| Name 3 | Perlin noise and randomness |
-| Name 4 | User input |
+| Zihan Jiang | Perlin noise and randomness |
+| Ruiqi Xu | User input |
 
 ---
 ### 🎵 Audio: Yixin Liu
@@ -61,7 +61,7 @@ world is not static, but alive with sound and movement.
 - Original artwork: *Composition VIII* (1923) by Wassily Kandinsky
 
 
-## Time-based Mechanic
+##  Time-based Mechanic
 
 My time-based mechanic will control how the abstract composition appears and moves over time. Instead of showing all shapes at once, the circles, lines, triangles, and arcs will appear in stages using `frameCount`. Some large circles will gently pulse using `sin()`, while selected arcs will slowly rotate to create movement. This helps the artwork feel like it is being constructed live on the canvas. The mechanic is practical because it uses simple p5.js functions such as `circle()`, `line()`, `triangle()`, `arc()`, `frameCount`, `sin()`, and `rotate()`.
 
@@ -72,6 +72,19 @@ My time-based mechanic will control how the abstract composition appears and mov
 - [p5.js rotate() Reference](https://p5js.org/reference/p5/rotate/) — Official p5.js documentation for rotating the coordinate system. Useful for rotating arcs or abstract shape groups.
 - [p5.js arc() Reference](https://p5js.org/reference/p5/arc/) — Official p5.js documentation for drawing arcs. Useful for recreating curved line elements from the original artwork.
 - [p5.js line() Reference](https://p5js.org/reference/p5/line/) — Official p5.js documentation for drawing straight lines. Useful for creating diagonal structures and connection lines.
+
+
+
+## User Input Mechanic
+
+The user input mechanic will allow viewers to interact with the abstract composition using the mouse or keyboard. For example, when the user clicks on the canvas, a new circle, line, or triangle can appear. Moving the mouse could also influence the direction, size, or colour of nearby shapes. This mechanic makes the viewer part of the composition process rather than only watching the artwork. It connects to the project vision because the final piece is not just a fixed image; it is a system that can change and respond. By adding simple user interaction, the abstract artwork becomes more playful and active, while still using basic geometric elements from the original image.
+
+### User Input References
+
+- [p5.js mouseX Reference](https://p5js.org/reference/p5/mouseX/) — Official p5.js documentation for tracking the mouse’s horizontal position.
+- [p5.js mouseY Reference](https://p5js.org/reference/p5/mouseY/) — Official p5.js documentation for tracking the mouse’s vertical position.
+- [p5.js mousePressed() Reference](https://p5js.org/reference/p5/mousePressed/) — Official p5.js documentation for detecting mouse clicks.
+- [p5.js keyPressed() Reference](https://p5js.org/reference/p5/keyPressed/) — Official p5.js documentation for detecting keyboard input.
 
 ---
 
