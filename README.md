@@ -29,12 +29,37 @@ Our project will reinterpret this abstract composition as a dynamic visual syste
 
 | Team Member | Mechanic |
 |---|---|
-| Name 1 | Audio |
+| Yixin Liu | Audio |
 | Wanni Xiang | Time-based |
 | Name 3 | Perlin noise and randomness |
 | Name 4 | User input |
 
 ---
+### 🎵 Audio: Yixin Liu
+
+The audio mechanic uses p5.js's FFT (Fast Fourier Transform) analysis to read 
+the volume and frequency content of a music track in real time, driving visual 
+changes in the circles and rings inspired by Kandinsky's Composition VIII. 
+Kandinsky believed that art and music were deeply connected — he described 
+colours and shapes as having their own "sound". This mechanic brings that 
+philosophy to life: each circle in the composition pulses and expands in size 
+according to the bass frequencies of the music, while the colour of the rings 
+shifts along the hue spectrum in response to the treble frequencies. When the 
+music is loud and energetic, the circles grow and glow with vivid colour; during 
+quieter moments, they contract and fade, breathing with the rhythm of the track. 
+Users can press the spacebar to play or pause the music, directly controlling 
+the energy and visual dynamism of the entire composition. This mechanic 
+reinforces the core idea of the reinterpretation: that Kandinsky's geometric 
+world is not static, but alive with sound and movement.
+
+## References
+#### References
+
+- [p5.FFT Reference](https://p5js.org/reference/p5.sound/p5.FFT/) — Official p5.js FFT documentation
+- [p5.sound Library](https://p5js.org/reference/p5.sound/) — Official p5.sound library reference
+- [Kandinsky and the Spirituality of Colour](https://www.wassilykandinsky.net/music.php) — Kandinsky's theory on the connection between music and visual art
+- Original artwork: *Composition VIII* (1923) by Wassily Kandinsky
+
 
 ## Time-based Mechanic
 
