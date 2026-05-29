@@ -1,6 +1,5 @@
 function setup() {
   createCanvas(900, 600);
-
   angleMode(RADIANS);
 }
 
