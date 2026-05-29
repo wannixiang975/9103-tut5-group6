@@ -73,11 +73,12 @@ My time-based mechanic will control how the abstract composition appears and mov
 - [p5.js arc() Reference](https://p5js.org/reference/p5/arc/) — Official p5.js documentation for drawing arcs. Useful for recreating curved line elements from the original artwork.
 - [p5.js line() Reference](https://p5js.org/reference/p5/line/) — Official p5.js documentation for drawing straight lines. Useful for creating diagonal structures and connection lines.
 
-### 🌊 Perlin noise and randomness: Zihan Jiang
+
+## 🌊 Perlin noise and randomness: Zihan Jiang
 
 For the Perlin Noise and Randomness mechanic, I focused on preserving the composition of Kandinsky’s *Composition VIII* while introducing subtle generative behaviour. Random values are used to regenerate the colours of the grid elements, creating controlled variation within the original structure. Perlin noise drives the length and movement of the diagonal bar elements, producing smooth and organic changes over time. I also refined the large circular form using gradient transitions and softer colours to better reflect the vintage and painterly qualities of the original artwork. The overall animation is intentionally restrained to maintain the visual balance of the composition.
 
-#### References
+### References
 - [Refik Anadol Studio](https://dataland.art/blog/qualia)
 - [teamlab Interactive Environment](https://www.teamlab.art/e/living_digital_space/)
 - [p5.js noise() Reference](https://p5js.org/reference/p5/noise/)
