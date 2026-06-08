@@ -177,7 +177,7 @@ function drawRadialRay(ray) {
 }
 
 // Optional interaction: click to regenerate random colours and ray positions
-function mousePressed() {
+function perlinRandomMousePressed() {
   createRandomStrips();
   createRadialRays();
 }
