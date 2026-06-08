@@ -12,6 +12,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100, 100);
   setupAudio();
+  setupPerlinRandomMechanic();
   inputController = new InputController();
 }
 
@@ -23,6 +24,8 @@ function draw() {
     inputController.update();
     inputController.display();
   }
+  
+  drawPerlinRandomMechanic();
 
   // Draw audio mechanic (circles)
   drawAudio();
@@ -39,6 +42,7 @@ function mousePressed() {
   if (inputController) {
     inputController.handleMousePressed();
   }
+  perlinRandomMousePressed();
 }
 
 function mouseDragged() {
