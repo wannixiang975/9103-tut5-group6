@@ -1,10 +1,8 @@
-function setup() {
-  createCanvas(900, 600);
+function setupTimeMechanic() {
   angleMode(RADIANS);
 }
 
-function draw() {
-  background(245, 238, 215);
+function drawTimeMechanic() {
 
   // Draw different layers of the composition
   drawStaticShapes();

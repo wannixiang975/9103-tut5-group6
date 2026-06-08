@@ -13,6 +13,7 @@ function setup() {
   colorMode(HSB, 360, 100, 100, 100);
   setupAudio();
   setupPerlinRandomMechanic();
+  setupTimeMechanic();
   inputController = new InputController();
 }
 
@@ -26,7 +27,7 @@ function draw() {
   }
   
   drawPerlinRandomMechanic();
-
+  drawTimeMechanic();
   // Draw audio mechanic (circles)
   drawAudio();
 }
