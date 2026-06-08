@@ -4,6 +4,7 @@ let secondaryLines = [];
 
 // Perlin noise animation offset
 let noiseOffset = 0;
+let backgroundCircles = [];
 
 function setupTimeMechanic() {
 
@@ -91,10 +92,31 @@ function setupTimeMechanic() {
 
   ];
 
+for (let i = 0; i < 10; i++) {
+
+  backgroundCircles.push({
+
+    x: random(width),
+    y: random(height),
+
+    size: random(120, 320),
+
+    phase: random(TWO_PI),
+
+    hue: random([
+      10, 35, 220, 280  
+    ])
+
+  });
+
+}
+
 }
 
 
 function drawTimeMechanic() {
+
+  drawBackgroundBreathingCircles();
 
   drawAnimatedLines();
 
@@ -360,6 +382,69 @@ function drawGridElement() {
       startY + i*spacing,
       startX + spacing*4,
       startY + i*spacing
+    );
+  }
+}
+
+function drawBackgroundBreathingCircles() {
+
+  noStroke();
+
+  for (let c of backgroundCircles) {
+
+    let breathe =
+      sin(frameCount * 0.01 + c.phase);
+
+    let currentSize =
+      c.size +
+      breathe * 25;
+
+    let alphaValue =
+      map(
+        breathe,
+        -1,
+        1,
+        3,
+        15
+      );
+
+
+    let moveX =
+      map(
+        noise(
+          c.phase +
+          frameCount * 0.001
+        ),
+        0,
+        1,
+        -20,
+        20
+      );
+
+    let moveY =
+      map(
+        noise(
+          c.phase +
+          500 +
+          frameCount * 0.001
+        ),
+        0,
+        1,
+        -20,
+        20
+      );
+
+    fill(
+      c.hue,
+      20,
+      65,
+      alphaValue
+    );
+
+    circle(
+      c.x + moveX,
+      c.y + moveY,
+      currentSize
     );
   }
 }
