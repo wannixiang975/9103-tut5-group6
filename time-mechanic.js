@@ -1,130 +1,221 @@
-function setup() {
-  createCanvas(900, 600);
+// Store line data
+let timeLines = [];
+
+// Perlin noise animation offset
+let noiseOffset = 0;
+
+function setupTimeMechanic() {
+
   angleMode(RADIANS);
+
+  // Fixed random seed for consistent composition
+  randomSeed(10);
+
+  // Line objects
+  timeLines = [
+
+    {
+      x1: 0.20,
+      y1: 0.68,
+      x2: 0.58,
+      y2: 0.20,
+      start: 0,
+      end: 120,
+      weight: 3
+    },
+
+    {
+      x1: 0.31,
+      y1: 0.63,
+      x2: 0.84,
+      y2: 0.55,
+      start: 60,
+      end: 180,
+      weight: 3
+    },
+
+    {
+      x1: 0.47,
+      y1: 0.83,
+      x2: 0.94,
+      y2: 0.22,
+      start: 120,
+      end: 240,
+      weight: 3
+    },
+
+    {
+      x1: 0.58,
+      y1: 0.17,
+      x2: 0.71,
+      y2: 0.82,
+      start: 180,
+      end: 300,
+      weight: 2
+    },
+
+    {
+      x1: 0.13,
+      y1: 0.53,
+      x2: 0.50,
+      y2: 0.60,
+      start: 240,
+      end: 360,
+      weight: 2
+    },
+
+    {
+      x1: 0.72,
+      y1: 0.13,
+      x2: 0.93,
+      y2: 0.87,
+      start: 300,
+      end: 420,
+      weight: 2
+    }
+
+  ];
 }
 
-function draw() {
-  background(245, 238, 215);
+function drawTimeMechanic() {
 
-  // Draw different layers of the composition
-  drawStaticShapes();
-  drawPulsingCircles();
-  drawAppearingLines();
+  drawAnimatedLines();
+
   drawRotatingArcs();
-  drawAppearingGrid();
+
+  noiseOffset += 0.01;
 }
 
-// Draw basic static geometric shapes
-// These shapes help establish the visual style of the original abstract artwork
-function drawStaticShapes() {
-  noStroke();
+function drawAnimatedLines() {
 
-  fill(230, 180, 40);
-  triangle(560, 250, 690, 340, 490, 360);
+  for (let i = 0; i < timeLines.length; i++) {
 
-  fill(40, 140, 190);
-  circle(680, 210, 60);
+    let l = timeLines[i];
 
-  fill(220, 60, 55);
-  circle(430, 160, 25);
+    let progress = map(
+      frameCount,
+      l.start,
+      l.end,
+      0,
+      1
+    );
 
-  fill(120, 90, 170);
-  circle(700, 470, 50);
-}
+    progress = constrain(progress, 0, 1);
 
-// Use time to make circles gently grow and shrink
-// This creates a subtle pulsing effect
-function drawPulsingCircles() {
-  let pulse = sin(frameCount * 0.05) * 12;
+    let x1 = width * l.x1;
+    let y1 = height * l.y1;
 
-  noStroke();
+    let x2 = width * l.x2;
+    let y2 = height * l.y2;
 
-  fill(20);
-  circle(140, 120, 150 + pulse);
+    let currentX = lerp(x1, x2, progress);
+    let currentY = lerp(y1, y2, progress);
 
-  fill(120, 60, 150);
-  circle(140, 120, 75 + pulse * 0.5);
+    // Perlin noise wobble
+    let wobbleX = map(
+      noise(noiseOffset + i),
+      0,
+      1,
+      -10,
+      10
+    );
 
-  fill(240, 200, 50);
-  circle(120, 450, 70 + pulse * 0.7);
+    let wobbleY = map(
+      noise(noiseOffset + i + 100),
+      0,
+      1,
+      -10,
+      10
+    );
 
-  fill(40, 150, 200);
-  circle(360, 520, 60 + pulse * 0.6);
-}
+    currentX += wobbleX;
+    currentY += wobbleY;
 
-// Draw lines that appear gradually over time
-// Each line has a different start and end frame
-function drawAppearingLines() {
-  stroke(20);
-  strokeWeight(3);
+    // Vintage low saturation colour palette
+    let hueValue =
+      25 +
+      sin(frameCount * 0.01 + i) * 25;
 
-  drawLineAppear(180, 410, 520, 120, 30, 90);
-  drawLineAppear(280, 380, 760, 330, 80, 140);
-  drawLineAppear(420, 500, 850, 130, 130, 190);
-  drawLineAppear(520, 100, 640, 500, 180, 240);
-  drawLineAppear(120, 320, 450, 360, 230, 290);
-  drawLineAppear(650, 80, 840, 520, 280, 340);
+    let saturationValue =
+      30 +
+      sin(frameCount * 0.008 + i) * 8;
 
-  strokeWeight(1.5);
-  drawLineAppear(300, 160, 500, 90, 330, 390);
-  drawLineAppear(500, 420, 760, 460, 380, 440);
-}
+    let brightnessValue =
+      45 +
+      sin(frameCount * 0.012 + i) * 10;
 
-// Helper function for drawing a line progressively
-// map() turns frameCount into a progress value from 0 to 1
-// lerp() uses that progress value to calculate the current end point
-function drawLineAppear(x1, y1, x2, y2, startFrame, endFrame) {
-  let amount = map(frameCount, startFrame, endFrame, 0, 1);
-  amount = constrain(amount, 0, 1);
+    stroke(
+      hueValue,
+      saturationValue,
+      brightnessValue,
+      80
+    );
 
-  let currentX = lerp(x1, x2, amount);
-  let currentY = lerp(y1, y2, amount);
+    strokeWeight(l.weight);
 
-  line(x1, y1, currentX, currentY);
-}
-
-// Rotate arc elements over time
-// push() and pop() keep the rotation from affecting other shapes
-function drawRotatingArcs() {
-  noFill();
-  stroke(30);
-  strokeWeight(3);
-
-  push();
-  translate(470, 220);
-  rotate(frameCount * 0.01);
-  arc(0, 0, 180, 180, 0, PI);
-  arc(0, 0, 120, 120, PI, TWO_PI);
-  pop();
-
-  push();
-  translate(610, 360);
-  rotate(frameCount * -0.008);
-  stroke(180, 50, 50);
-  arc(0, 0, 130, 130, 0, PI);
-  pop();
-}
-
-// Make a small grid appear after a delay
-// The grid fades in using alpha transparency
-function drawAppearingGrid() {
-  if (frameCount < 220) {
-    return;
+    line(
+      x1,
+      y1,
+      currentX,
+      currentY
+    );
   }
+}
 
-  let alphaValue = map(frameCount, 220, 300, 0, 255);
-  alphaValue = constrain(alphaValue, 0, 255);
+function drawRotatingArcs() {
 
-  stroke(20, alphaValue);
+  noFill();
+
   strokeWeight(2);
 
-  let startX = 730;
-  let startY = 120;
-  let spacing = 25;
+  // Large arc
 
-  // Draw vertical and horizontal grid lines
-  for (let i = 0; i < 5; i++) {
-    line(startX + i * spacing, startY, startX + i * spacing, startY + 100);
-    line(startX, startY + i * spacing, startX + 100, startY + i * spacing);
-  }
+  push();
+
+  translate(width * 0.52, height * 0.35);
+
+  rotate(frameCount * 0.003);
+
+  stroke(35, 20, 30, 70);
+
+  arc(
+    0,
+    0,
+    width * 0.18,
+    width * 0.18,
+    0,
+    PI
+  );
+
+  arc(
+    0,
+    0,
+    width * 0.12,
+    width * 0.12,
+    PI,
+    TWO_PI
+  );
+
+  pop();
+
+  // Small arc
+
+  push();
+
+  translate(width * 0.68, height * 0.60);
+
+  rotate(frameCount * -0.002);
+
+  stroke(5, 35, 45, 70);
+
+  arc(
+    0,
+    0,
+    width * 0.14,
+    width * 0.14,
+    0,
+    PI
+  );
+
+  pop();
 }
