@@ -1,5 +1,6 @@
 // Store line data
 let timeLines = [];
+let secondaryLines = [];
 
 // Perlin noise animation offset
 let noiseOffset = 0;
@@ -8,10 +9,10 @@ function setupTimeMechanic() {
 
   angleMode(RADIANS);
 
-  // Fixed random seed for consistent composition
   randomSeed(10);
 
-  // Line objects
+  // Main animated lines
+
   timeLines = [
 
     {
@@ -51,7 +52,7 @@ function setupTimeMechanic() {
       y2: 0.82,
       start: 180,
       end: 300,
-      weight: 2
+      weight: 4
     },
 
     {
@@ -71,20 +72,45 @@ function setupTimeMechanic() {
       y2: 0.87,
       start: 300,
       end: 420,
-      weight: 2
+      weight: 5
     }
 
   ];
+
+  secondaryLines = [
+
+    {x1:0.28,y1:0.18,x2:0.55,y2:0.30},
+    {x1:0.48,y1:0.12,x2:0.72,y2:0.35},
+    {x1:0.55,y1:0.08,x2:0.67,y2:0.40},
+    {x1:0.74,y1:0.12,x2:0.95,y2:0.32},
+    {x1:0.80,y1:0.10,x2:0.90,y2:0.80},
+    {x1:0.42,y1:0.92,x2:0.72,y2:0.55},
+    {x1:0.52,y1:0.80,x2:0.75,y2:0.50},
+    {x1:0.18,y1:0.85,x2:0.42,y2:0.65},
+    {x1:0.22,y1:0.78,x2:0.50,y2:0.70}
+
+  ];
+
 }
+
 
 function drawTimeMechanic() {
 
   drawAnimatedLines();
 
+  drawSecondaryLines();
+
+  drawKandinskyCurve();
+
   drawRotatingArcs();
+
+  drawBottomArcs();
+
+  drawGridElement();
 
   noiseOffset += 0.01;
 }
+
 
 function drawAnimatedLines() {
 
@@ -133,16 +159,16 @@ function drawAnimatedLines() {
 
     // Vintage low saturation colour palette
     let hueValue =
-      25 +
-      sin(frameCount * 0.01 + i) * 25;
+      20 +
+      sin(frameCount * 0.003 + i) * 8;
 
     let saturationValue =
-      30 +
-      sin(frameCount * 0.008 + i) * 8;
+      18 +
+      sin(frameCount * 0.003 + i) * 5;
 
     let brightnessValue =
-      45 +
-      sin(frameCount * 0.012 + i) * 10;
+      35 +
+      sin(frameCount * 0.005 + i) * 10;
 
     stroke(
       hueValue,
@@ -160,6 +186,46 @@ function drawAnimatedLines() {
       currentY
     );
   }
+}
+
+function drawSecondaryLines() {
+
+  stroke(25,10,30,45);
+
+  strokeWeight(1);
+
+  for(let l of secondaryLines){
+
+    line(
+      width*l.x1,
+      height*l.y1,
+      width*l.x2,
+      height*l.y2
+    );
+  }
+}
+
+function drawKandinskyCurve() {
+
+  noFill();
+
+  stroke(55,55,25,80);
+
+  strokeWeight(3);
+
+  beginShape();
+
+  for(let x=0; x<width*0.38; x+=8){
+
+    let y =
+      height*0.92 +
+      sin(x*0.03) * 18 +
+      noise(x*0.01 + frameCount*0.01) * 12;
+
+    curveVertex(x,y);
+  }
+
+  endShape();
 }
 
 function drawRotatingArcs() {
@@ -218,4 +284,82 @@ function drawRotatingArcs() {
   );
 
   pop();
+
+  push();
+
+  translate(width*0.58,height*0.72);
+
+  rotate(frameCount*0.002);
+
+  stroke(35,15,35,60);
+
+  arc(
+    0,
+    0,
+    width*0.09,
+    width*0.09,
+    PI,
+    TWO_PI
+  );
+
+  pop();
+}
+
+function drawBottomArcs() {
+
+  noFill();
+
+  stroke(35,20,35,60);
+
+  strokeWeight(1.5);
+
+  let positions = [
+
+    width*0.50,
+    width*0.58,
+    width*0.66,
+    width*0.74
+
+  ];
+
+  for(let x of positions){
+
+    arc(
+      x,
+      height*0.72,
+      width*0.08,
+      width*0.08,
+      PI,
+      TWO_PI
+    );
+  }
+}
+
+function drawGridElement() {
+
+  let startX = width * 0.82;
+  let startY = height * 0.20;
+
+  stroke(20,0,25,50);
+
+  strokeWeight(1);
+
+  let spacing = 18;
+
+  for(let i=0;i<4;i++){
+
+    line(
+      startX + i*spacing,
+      startY,
+      startX + i*spacing,
+      startY + spacing*4
+    );
+
+    line(
+      startX,
+      startY + i*spacing,
+      startX + spacing*4,
+      startY + i*spacing
+    );
+  }
 }
