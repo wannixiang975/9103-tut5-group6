@@ -1,20 +1,29 @@
-function setup() {
-  createCanvas(900, 600);
-  angleMode(RADIANS);
+// sketch.js
+// Main file - connects all mechanics together
+// Kandinsky Composition VIII - Interactive Reinterpretation
 
-  // Setup functions from each mechanic file
-  setupAudioMechanic();
-  setupTimeMechanic();
-  setupPerlinRandomMechanic();
-  setupUserInputMechanic();
+function preload() {
+  preloadAudio();
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  colorMode(HSB, 360, 100, 100, 100);
+  setupAudio();
 }
 
 function draw() {
-  background(245, 238, 215);
+  // Kandinsky's cream/off-white background
+  background(40, 8, 96);
 
-  // Draw each mechanic layer
-  drawAudioMechanic();
-  drawTimeMechanic();
-  drawPerlinRandomMechanic();
-  drawUserInputMechanic();
+  // Draw audio mechanic (circles)
+  drawAudio();
+}
+
+function keyPressed() {
+  audioKeyPressed();
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
