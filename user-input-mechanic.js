@@ -175,14 +175,17 @@ class InputController {
     }
     return null;
   }
-   // Get current bass intensity from the music
+
+  // Get current bass intensity from the music
   getCurrentBass() {
-    if (typeof fft === 'undefined') {
+    if (typeof audioFft === 'undefined') {
       return 0;
     }
-    return fft.getEnergy('bass') / 255;
+    audioFft.analyze();
+    return audioFft.getEnergy('bass') / 255;
   }
-   // Scale circles according to the audio level
+
+  // Scale circles according to the audio level
   getCurrentRingSize(ring, bass) {
     let minDim = min(width, height);
     if (ring.type === 'main') {
@@ -190,10 +193,13 @@ class InputController {
     }
     return (ring.baseSize + bass * 0.04) * minDim;
   }
-   // Draw all audio-reactive circles using their current positions
+
+  // Draw all audio-reactive circles using their current positions
   drawAudio() {
+    push();
+    colorMode(HSB, 360, 100, 100, 100);
     let bass = this.getCurrentBass();
-    let vol = (typeof amplitude !== 'undefined') ? constrain(amplitude.getLevel() * 3, 0, 1) : 0;
+    let vol = (typeof audioAmplitude !== 'undefined') ? constrain(audioAmplitude.getLevel() * 3, 0, 1) : 0;
 
     for (let ring of this.draggableRings) {
       let size = this.getCurrentRingSize(ring, bass);
@@ -212,6 +218,7 @@ class InputController {
       ellipse(this.draggingRing.x, this.draggingRing.y, this.getCurrentRingSize(this.draggingRing, bass));
       pop();
     }
+    pop();
   }
 }
 
@@ -233,14 +240,11 @@ class TrailParticle {
   }
   
   update() {
-    // Simple movement behaviour for a more organic look
     this.x += this.vx;
     this.y += this.vy;
     this.vy += this.gravity;
     this.vx *= this.friction;
     this.vy *= this.friction;
-    
-    // Gradually disappear over time
     this.life -= 8;
   }
   
@@ -274,13 +278,11 @@ class Ripple {
     this.strokeWeight = 2;
   }
 
-   // Increase ripple size and reduce visibility
   update() {
     this.radius += this.expandSpeed;
     this.life -= 6;
   }
   
-   // Draw the ripple as a fading outline
   display() {
     push();
     let alpha = map(this.life, 0, this.maxLife, 0, 100);
@@ -291,7 +293,6 @@ class Ripple {
     pop();
   }
 
-   // Remove the ripple once it becomes too large or invisible
   isFinished() {
     return this.radius > this.maxRadius || this.life <= 0;
   }
