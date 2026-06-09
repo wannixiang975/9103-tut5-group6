@@ -108,18 +108,22 @@ Used to implement the audio-reactive mechanic.
 
 ---
 
-## Perlin Noise Documentation
+## Perlin Noise Documentation: Zihan Jiang
 
-https://p5js.org/reference/p5/noise/
+For the Perlin Noise and Randomness mechanic, I focused on preserving the composition of Kandinsky’s Composition VIII while introducing subtle generative behaviour. I replaced the uneven chessboard-like blocks in the original artwork with colourful vertical strips that move up and down randomly, somewhat like piano keys. The central circle uses a layered gradient and a breathing vibration effect, with both the amplitude and the colours driven randomly. Segmented rotating pointers are composed of small colour blocks with varying widths, creating a visual rhythm that echoes the surrounding grid elements while rotating around the circle. Perlin Noise controls the smooth motion of the strips, the centre circle, the outer rings, and the pointer lengths, producing continuous and organic animation. A translucent asymmetrical triangle was also added behind the circle to enhance depth while maintaining the geometric structure and overall balance.
 
-Used to create smooth organic movement within the randomness and time mechanics.
+### References
+- [Refik Anadol Studio](https://dataland.art/blog/qualia)
+- [teamlab Interactive Environment](https://www.teamlab.art/e/living_digital_space/)
+- [p5.js noise() Reference](https://p5js.org/reference/p5/noise/)
+- [p5.js random() Reference](https://p5js.org/reference/p5/random/)
+- [p5.js lerpColor() Reference](https://p5js.org/reference/p5/lerpColor/)
+- Original artwork: *Composition VIII* (1923) by Wassily Kandinsky
 
-Example code comment:
-
-```javascript
-// Perlin noise technique adapted from:
-// https://p5js.org/reference/p5/noise/
-```
+# AI Acknowledgement
+- Used ChatGPT to enhance the English sentences and correct the spelling errors.
+- Used ChatGPT to define the position of all graphics.
+- Used ChatGPT to define the colour palette.
 
 ---
 
