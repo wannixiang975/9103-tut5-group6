@@ -3,70 +3,72 @@
 // Concentric circles inspired by Kandinsky's Composition VIII
 // Driven by p5.js FFT audio analysis
 
-// 改名规避和组员变量冲突
-let audioFft;
-let audioMusic;
-let audioIsPlaying = false;
-let audioAmplitude;
+let fft;
+let music;
+let isPlaying = false;
+let amplitude;
 
 function preloadAudio() {
-  audioMusic = loadSound('music.mp3');
+  music = loadSound('music.mp3');
 }
 
 function setupAudio() {
-  audioFft = new p5.FFT(0.8);
-  audioAmplitude = new p5.Amplitude();
+  fft = new p5.FFT(0.8);
+  amplitude = new p5.Amplitude();
+  // Bind spectrum and volume analyzer to the loaded audio file
+  fft.setInput(music);
+  amplitude.setInput(music);
 }
 
 function drawAudio() {
-  audioFft.analyze();
+  fft.analyze();
 
-  let bass   = audioFft.getEnergy("bass")   / 255;
-  let mid    = audioFft.getEnergy("mid")    / 255;
-  let treble = audioFft.getEnergy("treble") / 255;
-  let vol    = constrain(audioAmplitude.getLevel() * 3, 0, 1);
+  let bass   = fft.getEnergy("bass")   / 255;
+  let mid    = fft.getEnergy("mid")    / 255;
+  let vol    = constrain(amplitude.getLevel() * 3, 0, 1);
 
-  // ---- Main large circle at top-left ----
+  // Top-left main circle - responds to bass frequencies
   drawMainCircle(
     0.1 * width, 0.32 * height,
     (0.2 + bass * 0.08) * min(width, height),
     bass, vol
   );
 
-  // ---- Segmented colorful rings ----
+  // Remaining segmented circles - all respond to bass frequencies
   drawSegmentCircle(
     0.12 * width, 0.46 * height,
     (0.09 + bass * 0.04) * min(width, height),
-    [0, 15, 30], bass  // red-orange tones
+    [0, 15, 30], bass
   );
 
   drawSegmentCircle(
     0.09 * width, 0.78 * height,
-    (0.08 + mid * 0.04) * min(width, height),
-    [45, 55, 35], mid  // yellow tones
+    (0.08 + bass * 0.04) * min(width, height),
+    [45, 55, 35], bass
   );
 
   drawSegmentCircle(
     0.72 * width, 0.48 * height,
-    (0.11 + treble * 0.04) * min(width, height),
-    [210, 230, 190], treble  // blue tones
+    (0.11 + bass * 0.04) * min(width, height),
+    [210, 230, 190], bass
   );
 
   drawSegmentCircle(
     0.5 * width, 0.85 * height,
-    (0.06 + mid * 0.03) * min(width, height),
-    [200, 220, 180], mid  // pale blue tones
+    (0.06 + bass * 0.03) * min(width, height),
+    [200, 220, 180], bass
   );
 
   drawSegmentCircle(
     0.81 * width, 0.82 * height,
-    (0.1 + treble * 0.04) * min(width, height),
-    [0, 0, 0], treble  // grey tones
+    (0.1 + bass * 0.04) * min(width, height),
+    [0, 0, 0], bass
   );
 }
 
-// Draw main large circle: black body, purple inner, red glow
+// Main circle renderer: black outer circle, purple inner circle, red outer glow
 function drawMainCircle(cx, cy, size, energy, vol) {
+  // Red outer glow effect
   push();
   noStroke();
   for (let r = size * 1.3; r > size * 0.9; r -= size * 0.02) {
@@ -77,12 +79,14 @@ function drawMainCircle(cx, cy, size, energy, vol) {
   }
   pop();
 
+  // Black main circle body
   push();
   noStroke();
   fill(0, 0, 15, 95);
   ellipse(cx, cy, size, size);
   pop();
 
+  // Pulsing purple inner circle reacting to volume
   push();
   noStroke();
   let innerSize = size * map(energy, 0, 1, 0.45, 0.55);
@@ -91,17 +95,19 @@ function drawMainCircle(cx, cy, size, energy, vol) {
   pop();
 }
 
-// Draw segmented colorful ring circles
+// Segmented colored annular ring renderer
 function drawSegmentCircle(cx, cy, size, hues, energy) {
   let numSegments = 12;
   let angleStep = 360 / numSegments;
 
+  // White base circle background
   push();
   noStroke();
   fill(0, 0, 95, 90);
   ellipse(cx, cy, size, size);
   pop();
 
+  // Colored segmented outer ring
   push();
   let ringWidth = size * map(energy, 0, 1, 0.12, 0.22);
   let outerR = size / 2;
@@ -121,10 +127,12 @@ function drawSegmentCircle(cx, cy, size, hues, energy) {
         radians(startAngle), radians(endAngle), PIE);
   }
 
+  // White inner mask to form hollow ring shape
   fill(0, 0, 95, 95);
   ellipse(cx, cy, innerR * 2, innerR * 2);
   pop();
 
+  // Small black center dot
   push();
   noStroke();
   fill(0, 0, 10, 90);
@@ -134,12 +142,12 @@ function drawSegmentCircle(cx, cy, size, hues, energy) {
 
 function audioKeyPressed() {
   if (key === ' ') {
-    if (audioIsPlaying) {
-      audioMusic.pause();
-      audioIsPlaying = false;
+    if (isPlaying) {
+      music.pause();
+      isPlaying = false;
     } else {
-      audioMusic.play();
-      audioIsPlaying = true;
+      music.play();
+      isPlaying = true;
     }
   }
 }
