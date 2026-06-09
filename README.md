@@ -46,11 +46,10 @@ Instead of dramatically altering the artwork, we focused on making the geometric
 
 # Mechanic Ownership
 
-## Audio Mechanic – Team Member A
+## Audio Mechanic – Yixin Liu
 
-The audio mechanic uses **p5.FFT** to analyse frequency information from a sound file.
-
-Different frequency bands influence the behaviour of visual elements such as circles and shapes. As the audio changes, the composition responds dynamically, creating a visual representation of sound.
+This mechanic leverages p5.FFT to extract frequency spectrum data from imported audio files.
+Variations across distinct frequency bands drive the movement and properties of on-screen visual elements including circles and geometric shapes. The entire visual composition updates dynamically in real time alongside audio fluctuations, translating sound characteristics into responsive visuals.
 
 ---
 
