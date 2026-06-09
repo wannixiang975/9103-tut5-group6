@@ -26,6 +26,7 @@ function drawAudio() {
   let bass = audioFft.getEnergy("bass") / 255;
   let mid  = audioFft.getEnergy("mid")  / 255;
   let vol  = constrain(audioAmplitude.getLevel() * 3, 0, 1);
+  console.log("Bass:", bass, "Playing:", audioIsPlaying);
 
   drawMainCircle(
     0.1 * width, 0.32 * height,
