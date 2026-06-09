@@ -63,7 +63,7 @@ world is not static, but alive with sound and movement.
 
 ##  Time-based Mechanic
 
-My time-based mechanic will control how the abstract composition appears and moves over time. Instead of showing all shapes at once, the circles, lines, triangles, and arcs will appear in stages using `frameCount`. Some large circles will gently pulse using `sin()`, while selected arcs will slowly rotate to create movement. This helps the artwork feel like it is being constructed live on the canvas. The mechanic is practical because it uses simple p5.js functions such as `circle()`, `line()`, `triangle()`, `arc()`, `frameCount`, `sin()`, and `rotate()`.
+My mechanic focuses on time-based animation inspired by the geometric structure of Kandinsky’s Composition VIII. I use frameCount, lerp(), and map() to gradually draw lines across the canvas, creating a sense of visual construction over time. Subtle colour transitions and Perlin noise are used to add gentle movement and variation, making the composition feel more organic. Rotating arc elements are also animated using rotate(), translate(), push(), and pop(), helping the artwork slowly evolve rather than appear all at once. This mechanic demonstrates how time can be used to reveal and transform visual elements.
 
 ### Time-based References
 
