@@ -10,7 +10,6 @@
 // - Controls dynamic outer rings.
 // - Controls pointer length.
 
-
 let perlinPalette = [];
 let leftBlocks = [];
 let rightBlocks = [];
@@ -24,15 +23,15 @@ let centreGradientSet;
 // -------------------------
 function setupPerlinRandomMechanic() {
   perlinPalette = [
-    color("#B86A5E"), 
-    color("#D6A94E"), 
-    color("#6E8FAF"), 
-    color("#7F9A72"), 
-    color("#8B6FA3"), 
-    color("#A48B6A"), 
-    color("#D9C7A3"), 
-    color("#2A2A2A"), 
-    color("#F1E5CC")  
+    color("#B86A5E"),
+    color("#D6A94E"),
+    color("#6E8FAF"),
+    color("#7F9A72"),
+    color("#8B6FA3"),
+    color("#A48B6A"),
+    color("#D9C7A3"),
+    color("#2A2A2A"),
+    color("#F1E5CC")
   ];
   resetPerlinRandomMechanic();
   centreNoise = random(1000);
@@ -40,15 +39,11 @@ function setupPerlinRandomMechanic() {
 
 function drawPerlinRandomMechanic() {
   push();
-  colorMode(RGB, 255, 255, 255, 255); // Add RGB to protect the mechanic.
+  colorMode(RGB, 255, 255, 255, 255);
   drawBlockGroup(leftBlocks, 245, 580, -55, -18, 28, 0.0035);
   drawBlockGroup(rightBlocks, 745, 145, -18, -28, 45, 0.0028);
   drawCentreSystem();
   pop();
-}
-  drawBlockGroup(leftBlocks, 245, 580, -55, -18, 28, 0.0035);
-  drawBlockGroup(rightBlocks, 745, 145, -18, -28, 45, 0.0028);
-  drawCentreSystem();
 }
 
 
@@ -60,10 +55,10 @@ function resetPerlinRandomMechanic() {
   rightBlocks = createBlocks(8, 160, 260, 12, 17, 22);
   pointers = createPointers();
   centreGradientSet = random([
-    ["#F1E5CC", "#8B6FA3", "#2A2A2A"], // cream → purple → black
-    ["#F1E5CC", "#B86A5E", "#2A2A2A"], // cream → red → black
-    ["#F1E5CC", "#6E8FAF", "#2A2A2A"], // cream → blue → black
-    ["#F1E5CC", "#7F9A72", "#2A2A2A"]  // cream → green → black
+    ["#F1E5CC", "#8B6FA3", "#2A2A2A"],
+    ["#F1E5CC", "#B86A5E", "#2A2A2A"],
+    ["#F1E5CC", "#6E8FAF", "#2A2A2A"],
+    ["#F1E5CC", "#7F9A72", "#2A2A2A"]
   ]);
 }
 
@@ -76,7 +71,6 @@ function createBlocks(count, minW, maxW, minH, maxH, gap) {
       baseW: random(minW, maxW),
       h: random(minH, maxH),
       col: random(perlinPalette),
-      // Each block has its own noise seed, so lengths animate independently.
       n: random(1000)
     });
   }
@@ -110,7 +104,6 @@ function drawBlockGroup(blocks, x, y, angle, minShift, maxShift, speed) {
   translate(x, y);
   rotate(radians(angle));
   for (let b of blocks) {
-    // Perlin Noise smoothly changes block length over time.
     let w = b.baseW + map(noise(b.n), 0, 1, minShift, maxShift);
     drawBlock(b.x, b.y, w, b.h, b.col);
     b.n += speed;
@@ -133,7 +126,6 @@ function drawBlock(x, y, w, h, col) {
 function drawCentreSystem() {
   push();
   translate(620, 410);
-  // Main breathing value controlling the centre system.
   let pulse = map(noise(centreNoise), 0, 1, -30, 70);
   drawTriangleBehindCentre(pulse);
   drawCentreGradient(pulse);
@@ -159,7 +151,6 @@ function drawTriangleBehindCentre(pulse) {
 function drawCentreGradient(pulse) {
   noStroke();
   let size = 58 + pulse;
-  // Layered circles create a soft radial gradient.
   for (let r = size; r > 0; r--) {
     let t = map(r, size, 0, 0, 1);
     let cream = color(centreGradientSet[0]);
@@ -206,7 +197,6 @@ function drawOuterRings(pulse) {
 // -------------------------
 function drawPointers() {
   for (let p of pointers) {
-    // Pointer length is controlled by Perlin Noise while rotation uses independent speeds.
     let len = p.baseLength + map(noise(p.n), 0, 1, -25, 38);
     drawSegmentedPointer(p, len);
     p.angle += p.speed;
@@ -259,6 +249,5 @@ function getPointerSegmentColour(p, index, t) {
 // Interaction
 // -------------------------
 function perlinRandomMousePressed() {
-  // Regenerate all random values.
   resetPerlinRandomMechanic();
 }
