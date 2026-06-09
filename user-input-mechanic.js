@@ -138,6 +138,7 @@ class InputController {
     }
 
     // Show a ripple wherever the user clicks
+    this.ripples.push(
       new Ripple(
         mouseX,
         mouseY,
@@ -161,7 +162,8 @@ class InputController {
   
   handleKeyPressed() {
     // Reserved for future keyboard interactions
-
+  }
+  
   findRingUnderMouse() {
     for (let i = this.draggableRings.length - 1; i >= 0; i--) {
       let ring = this.draggableRings[i];
