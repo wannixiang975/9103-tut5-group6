@@ -3,69 +3,70 @@
 // Concentric circles inspired by Kandinsky's Composition VIII
 // Driven by p5.js FFT audio analysis
 
-let fft;
-let music;
-let isPlaying = false;
-let amplitude;
+// 改名规避和组员变量冲突
+let audioFft;
+let audioMusic;
+let audioIsPlaying = false;
+let audioAmplitude;
 
 function preloadAudio() {
-  music = loadSound('music.mp3');
+  audioMusic = loadSound('music.mp3');
 }
 
 function setupAudio() {
-  fft = new p5.FFT(0.8);
-  amplitude = new p5.Amplitude();
+  audioFft = new p5.FFT(0.8);
+  audioAmplitude = new p5.Amplitude();
 }
 
 function drawAudio() {
-  fft.analyze();
+  audioFft.analyze();
 
-  let bass   = fft.getEnergy("bass")   / 255;
-  let mid    = fft.getEnergy("mid")    / 255;
-  let vol    = constrain(amplitude.getLevel() * 3, 0, 1);
+  let bass   = audioFft.getEnergy("bass")   / 255;
+  let mid    = audioFft.getEnergy("mid")    / 255;
+  let treble = audioFft.getEnergy("treble") / 255;
+  let vol    = constrain(audioAmplitude.getLevel() * 3, 0, 1);
 
-  // 左上角大圆 - 响应bass
+  // ---- Main large circle at top-left ----
   drawMainCircle(
     0.1 * width, 0.32 * height,
     (0.2 + bass * 0.08) * min(width, height),
     bass, vol
   );
 
-  // 其他圆 - 全部响应bass
+  // ---- Segmented colorful rings ----
   drawSegmentCircle(
     0.12 * width, 0.46 * height,
     (0.09 + bass * 0.04) * min(width, height),
-    [0, 15, 30], bass
+    [0, 15, 30], bass  // red-orange tones
   );
 
   drawSegmentCircle(
     0.09 * width, 0.78 * height,
-    (0.08 + bass * 0.04) * min(width, height),
-    [45, 55, 35], bass
+    (0.08 + mid * 0.04) * min(width, height),
+    [45, 55, 35], mid  // yellow tones
   );
 
   drawSegmentCircle(
     0.72 * width, 0.48 * height,
-    (0.11 + bass * 0.04) * min(width, height),
-    [210, 230, 190], bass
+    (0.11 + treble * 0.04) * min(width, height),
+    [210, 230, 190], treble  // blue tones
   );
 
   drawSegmentCircle(
     0.5 * width, 0.85 * height,
-    (0.06 + bass * 0.03) * min(width, height),
-    [200, 220, 180], bass
+    (0.06 + mid * 0.03) * min(width, height),
+    [200, 220, 180], mid  // pale blue tones
   );
 
   drawSegmentCircle(
     0.81 * width, 0.82 * height,
-    (0.1 + bass * 0.04) * min(width, height),
-    [0, 0, 0], bass
+    (0.1 + treble * 0.04) * min(width, height),
+    [0, 0, 0], treble  // grey tones
   );
 }
 
-// 图1大圆效果：黑色+紫色+红色光晕
+// Draw main large circle: black body, purple inner, red glow
 function drawMainCircle(cx, cy, size, energy, vol) {
-  // 红色外光晕
   push();
   noStroke();
   for (let r = size * 1.3; r > size * 0.9; r -= size * 0.02) {
@@ -76,14 +77,12 @@ function drawMainCircle(cx, cy, size, energy, vol) {
   }
   pop();
 
-  // 黑色大圆
   push();
   noStroke();
   fill(0, 0, 15, 95);
   ellipse(cx, cy, size, size);
   pop();
 
-  // 紫色内圆，随音量脉动
   push();
   noStroke();
   let innerSize = size * map(energy, 0, 1, 0.45, 0.55);
@@ -92,19 +91,17 @@ function drawMainCircle(cx, cy, size, energy, vol) {
   pop();
 }
 
-// 图2/3彩色分段环形效果
+// Draw segmented colorful ring circles
 function drawSegmentCircle(cx, cy, size, hues, energy) {
   let numSegments = 12;
   let angleStep = 360 / numSegments;
 
-  // 白色底圆
   push();
   noStroke();
   fill(0, 0, 95, 90);
   ellipse(cx, cy, size, size);
   pop();
 
-  // 彩色分段外环
   push();
   let ringWidth = size * map(energy, 0, 1, 0.12, 0.22);
   let outerR = size / 2;
@@ -124,12 +121,10 @@ function drawSegmentCircle(cx, cy, size, hues, energy) {
         radians(startAngle), radians(endAngle), PIE);
   }
 
-  // 白色内圆遮罩
   fill(0, 0, 95, 95);
   ellipse(cx, cy, innerR * 2, innerR * 2);
   pop();
 
-  // 黑色小圆心
   push();
   noStroke();
   fill(0, 0, 10, 90);
@@ -139,12 +134,12 @@ function drawSegmentCircle(cx, cy, size, hues, energy) {
 
 function audioKeyPressed() {
   if (key === ' ') {
-    if (isPlaying) {
-      music.pause();
-      isPlaying = false;
+    if (audioIsPlaying) {
+      audioMusic.pause();
+      audioIsPlaying = false;
     } else {
-      music.play();
-      isPlaying = true;
+      audioMusic.play();
+      audioIsPlaying = true;
     }
   }
 }
