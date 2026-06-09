@@ -2,7 +2,7 @@
 // Audio Mechanic by Yixin Liu
 // Concentric circles inspired by Kandinsky's Composition VIII
 // Driven by p5.js FFT audio analysis
-// Rename all global variables to avoid conflict with other scripts
+
 let audioFft;
 let audioMusic;
 let audioIsPlaying = false;
@@ -23,19 +23,15 @@ function drawAudio() {
   push();
   colorMode(HSB, 360, 100, 100, 100);
   audioFft.analyze();
-  console.log("Bass Energy:", audioFft.getEnergy("bass"), "Playing:", audioIsPlaying);
   let bass = audioFft.getEnergy("bass") / 255;
   let mid  = audioFft.getEnergy("mid")  / 255;
   let vol  = constrain(audioAmplitude.getLevel() * 3, 0, 1);
 
-  // Top-left main circle - responds to bass frequencies
   drawMainCircle(
     0.1 * width, 0.32 * height,
     (0.2 + bass * 0.08) * min(width, height),
     bass, vol
   );
-
-  // Remaining segmented circles - all respond to bass frequencies
   drawSegmentCircle(
     0.12 * width, 0.46 * height,
     (0.09 + bass * 0.04) * min(width, height),
@@ -64,9 +60,7 @@ function drawAudio() {
   pop();
 }
 
-// Main circle renderer: black outer circle, purple inner circle, red outer glow
 function drawMainCircle(cx, cy, size, energy, vol) {
-  // Red outer glow effect
   push();
   noStroke();
   for (let r = size * 1.3; r > size * 0.9; r -= size * 0.02) {
@@ -77,14 +71,12 @@ function drawMainCircle(cx, cy, size, energy, vol) {
   }
   pop();
 
-  // Black main circle body
   push();
   noStroke();
   fill(0, 0, 15, 95);
   ellipse(cx, cy, size, size);
   pop();
 
-  // Pulsing purple inner circle reacting to volume
   push();
   noStroke();
   let innerSize = size * map(energy, 0, 1, 0.45, 0.55);
@@ -93,19 +85,16 @@ function drawMainCircle(cx, cy, size, energy, vol) {
   pop();
 }
 
-// Segmented colored annular ring renderer
 function drawSegmentCircle(cx, cy, size, hues, energy) {
   let numSegments = 12;
   let angleStep = 360 / numSegments;
 
-  // White base circle background
   push();
   noStroke();
   fill(0, 0, 95, 90);
   ellipse(cx, cy, size, size);
   pop();
 
-  // Colored segmented outer ring
   push();
   let ringWidth = size * map(energy, 0, 1, 0.12, 0.22);
   let outerR = size / 2;
@@ -121,12 +110,10 @@ function drawSegmentCircle(cx, cy, size, hues, energy) {
     arc(cx, cy, size, size,
         radians(startAngle), radians(endAngle), PIE);
   }
-  // White inner mask to form hollow ring shape
   fill(0, 0, 95, 95);
   ellipse(cx, cy, innerR * 2, innerR * 2);
   pop();
 
-  // Small black center dot
   push();
   noStroke();
   fill(0, 0, 10, 90);
