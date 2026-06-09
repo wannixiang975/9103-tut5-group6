@@ -46,13 +46,6 @@ Instead of dramatically altering the artwork, we focused on making the geometric
 
 # Mechanic Ownership
 
-## Audio Mechanic – Yixin Liu
-
-This mechanic leverages p5.FFT to extract frequency spectrum data from imported audio files.
-Variations across distinct frequency bands drive the movement and properties of on-screen visual elements including circles and geometric shapes. The entire visual composition updates dynamically in real time alongside audio fluctuations, translating sound characteristics into responsive visuals.
-
----
-
 
 ## Time-Based Mechanic – Wanni Xiang
 
@@ -61,6 +54,29 @@ The time mechanic gradually builds the composition over time using `frameCount()
 Lines appear progressively using `lerp()`, geometric elements rotate using `rotate()`, and subtle motion is created through `sin()` and `noise()`. A low-saturation colour palette was used to maintain a vintage Kandinsky-inspired appearance.
 
 The purpose of this mechanic is to create a sense of growth and development, allowing the composition to slowly reveal itself rather than appearing all at once.
+
+---
+
+### References
+
+- p5.js noise() Reference
+  https://p5js.org/reference/p5/noise/
+
+- p5.js lerp() Reference
+  https://p5js.org/reference/p5/lerp/
+
+- p5.js map() Reference
+  https://p5js.org/reference/p5/map/
+
+- p5.js rotate() Reference
+  https://p5js.org/reference/p5/rotate/
+
+- p5.js push() / pop() Reference
+  https://p5js.org/reference/p5/push/
+  https://p5js.org/reference/p5/pop/
+  
+- Kandinsky, W. (1923). Composition VIII.
+  Inspiration for geometric composition, line arrangements, circles and arc structures.
 
 ---
 
@@ -75,35 +91,6 @@ This project used **ChatGPT** to assist with:
 - Refining animation techniques
 
 All AI-generated suggestions were reviewed, modified, and integrated by team members before implementation.
-
-Example code comment:
-
-
----
-
-# External References
-
-## p5.js Reference
-
-https://p5js.org/reference/
-
-Used throughout the project to learn and implement p5.js functions.
-
----
-
-## p5.Sound Library
-
-https://p5js.org/reference/p5.sound/
-
-Used for loading and analysing audio data.
-
----
-
-## p5.FFT Documentation
-
-https://p5js.org/reference/p5.sound/p5.FFT/
-
-Used to implement the audio-reactive mechanic.
 
 ---
 
@@ -126,33 +113,7 @@ For the Perlin Noise and Randomness mechanic, I focused on preserving the compos
 
 ---
 
-# Interaction Instructions
-
-## How to Experience the Work
-
-1. Open the project in a web browser.
-2. Press the Space bar to start the audio.
-3. Watch the composition gradually develop over time.
-4. Move and drag the mouse to interact with visual elements.
-5. Observe how sound, time, randomness, and user input influence one another.
-
-Because the project uses randomness and Perlin Noise, every experience will be slightly different.
-
----
-
-# Team Members
-
-| Team Member | Mechanic |
-<<<<<<< HEAD
-|---|---|
-| Yixin Liu | Audio |
-| Wanni Xiang | Time-based |
-| Zihan Jiang | Perlin noise and randomness |
-| Ruiqi Xu | User input |
-
----
-
-### 🎵 Audio: Yixin Liu
+## Audio: Yixin Liu
 This audio interactive module actualizes Wassily Kandinsky's synesthetic theory that geometric shapes and colors possess inherent sonic characteristics, reanimating his static work *Composition VIII* into a sound-responsive animated piece.
 
 Developed with the `p5.sound` library, this system uses **p5.FFT frequency analysis** and amplitude detection to parse real-time audio data. The original classical piano audio file downloaded from Tunetank is renamed to `music.mp3` for simplified file referencing, which is loaded and read by the program. Audio signals are split into bass, midrange, and treble frequency bands, each mapped to exclusive circular visual elements on the canvas:
@@ -165,8 +126,8 @@ The ring width, color saturation and brightness of each segmented circle dynamic
 
 Users can press the **Spacebar** to play or pause the piano audio track to manually control the whole visual rhythm. When the piano melody is loud and energetic, all circular shapes swell in size with highly saturated bright colors; during soft, quiet passages of the piano piece, elements shrink and colors fade gently, letting the entire abstract composition breathe and flow synchronously with the cadence of classical piano music.
 
-## References
-#### References
+### References
+
 - [p5.FFT Official Documentation](https://p5js.org/reference/p5.sound/p5.FFT/)
 - [p5.sound Full Library Reference](https://p5js.org/reference/p5.sound/p5.sound/)
 - [p5.Amplitude Reference](https://p5js.org/reference/p5.sound/p5.Amplitude/)
@@ -174,31 +135,7 @@ Users can press the **Spacebar** to play or pause the piano audio track to manua
 - Original Artwork Reference: *Composition VIII*, 1923, Wassily Kandinsky
 - Audio Source: Classical piano track originally named `tunetank-piano-classical-music-347514` from Tunetank, renamed locally to `music.mp3` for project use
 
-
-##  Time-based Mechanic
-
-My mechanic focuses on time-based animation inspired by the geometric structure of Kandinsky’s Composition VIII. I use frameCount, lerp(), and map() to gradually draw lines across the canvas, creating a sense of visual construction over time. Subtle colour transitions and Perlin noise are used to add gentle movement and variation, making the composition feel more organic. Rotating arc elements are also animated using rotate(), translate(), push(), and pop(), helping the artwork slowly evolve rather than appear all at once. This mechanic demonstrates how time can be used to reveal and transform visual elements.
-
-### Time-based References
-
-- [p5.js frameCount Reference](https://p5js.org/reference/p5/frameCount/) — Official p5.js documentation for tracking time by counting frames. Useful for making shapes appear in stages over time.
-- [p5.js sin() Reference](https://p5js.org/reference/p5/sin/) — Official p5.js documentation for sine wave motion. Useful for creating gentle pulsing effects for circles.
-- [p5.js rotate() Reference](https://p5js.org/reference/p5/rotate/) — Official p5.js documentation for rotating the coordinate system. Useful for rotating arcs or abstract shape groups.
-- [p5.js arc() Reference](https://p5js.org/reference/p5/arc/) — Official p5.js documentation for drawing arcs. Useful for recreating curved line elements from the original artwork.
-- [p5.js line() Reference](https://p5js.org/reference/p5/line/) — Official p5.js documentation for drawing straight lines. Useful for creating diagonal structures and connection lines.
-
-
-## 🌊 Perlin noise and randomness: Zihan Jiang
-
-For the Perlin Noise and Randomness mechanic, I focused on preserving the composition of Kandinsky’s *Composition VIII* while introducing subtle generative behaviour. Random values are used to regenerate the colours of the grid elements, creating controlled variation within the original structure. Perlin noise drives the length and movement of the diagonal bar elements, producing smooth and organic changes over time. I also refined the large circular form using gradient transitions and softer colours to better reflect the vintage and painterly qualities of the original artwork. The overall animation is intentionally restrained to maintain the visual balance of the composition.
-
-### References
-- [Refik Anadol Studio](https://dataland.art/blog/qualia)
-- [teamlab Interactive Environment](https://www.teamlab.art/e/living_digital_space/)
-- [p5.js noise() Reference](https://p5js.org/reference/p5/noise/)
-- [p5.js random() Reference](https://p5js.org/reference/p5/random/)
-- [p5.js lerp() Reference](https://p5js.org/reference/p5/lerp/)  
-- Original artwork: *Composition VIII* (1923) by Wassily Kandinsky
+---
 
 ## User Input Mechanic Ruiqi Xu
 
@@ -206,56 +143,42 @@ My contribution was inspired by interactive digital artworks that encourage audi
 
 The visual style of the interaction effects was influenced by the project's Kandinsky-inspired composition. I selected colours and motion behaviours that complement the geometric forms and audio-reactive elements already present in the artwork.
 
-## Techniques
-
-This mechanic was developed using p5.js and object-oriented programming.
-
-### Mouse Trail Effect
-
-As the user moves the mouse, small particles are generated along the cursor path. Each particle has its own velocity, gravity, friction, and lifespan, creating a fading trail effect that makes movement visible on the canvas.
-
-### Ripple Effect
-
-When the user clicks on the canvas, an expanding ripple animation is created. The ripple grows in size while gradually becoming transparent, providing immediate visual feedback.
-
-### Drag-and-Drop Interaction
-
-Users can click and drag the audio-reactive circles to different positions on the screen. This allows them to modify the composition and create their own arrangement of visual elements.
-
-### Audio-Reactive Behaviour
-
-The draggable circles continue to react to audio data while being moved. Circle sizes change according to bass frequencies, creating a connection between user interaction and sound visualisation.
-
-### User Input References
+### References
 
 - [p5.js mouseX Reference](https://p5js.org/reference/p5/mouseX/) — Official p5.js documentation for tracking the mouse’s horizontal position.
 - [p5.js mouseY Reference](https://p5js.org/reference/p5/mouseY/) — Official p5.js documentation for tracking the mouse’s vertical position.
 - [p5.js mousePressed() Reference](https://p5js.org/reference/p5/mousePressed/) — Official p5.js documentation for detecting mouse clicks.
 - [p5.js keyPressed() Reference](https://p5js.org/reference/p5/keyPressed/) — Official p5.js documentation for detecting keyboard input.
 
-## Interaction Instructions
-Move the mouse around the screen to generate particle trails.
-Click anywhere on the canvas to create ripple effects.
-Click and drag any audio-reactive circle to reposition it.
-Observe how the circles continue responding to music while being moved.
-Experiment with different arrangements and movements to create unique visual outcomes.
-
-## The goal of this mechanic is to transform the viewer into an active participant who can directly influence the visual composition.
 ---
 
-## Part 3: Putting It Together
+# Interaction Instructions
 
-All four mechanics will share the same canvas and visual language based on the original abstract artwork. The composition will be built from circles, lines, triangles, arcs, grids, and colour blocks. The time-based mechanic controls how shapes appear and move, the audio mechanic changes visual intensity, the randomness mechanic adds variation, and user input allows viewers to add or influence shapes. Together, these mechanics will turn a static abstract composition into a dynamic digital artwork.
+## How to Experience the Work
 
+1. Open the project in a web browser.
+2. Press the Space bar to start the audio.
+3. Watch the composition gradually develop over time.
+4. Move the mouse around the screen to generate particle trails.
+5. Click anywhere on the canvas to create ripple effects.
+6. Click and drag any audio-reactive circle to reposition it.
+7. Observe how the circles continue responding to music while being moved.
+8. Experiment with different arrangements and movements to create unique visual outcomes.
+
+Because the project uses randomness and Perlin Noise, every experience will be slightly different.
+
+### The goal of this mechanic is to transform the viewer into an active participant who can directly influence the visual composition.
 ---
 
-## Final Concept Summary
+# Team Members
 
-This project reinterprets an abstract geometric artwork as a live animated composition. We will use simple p5.js shapes and beginner-friendly coding techniques to create movement, sound response, randomness, and interaction. The final work will keep the visual spirit of the original image while transforming it into a digital system that changes over time.
-=======
-|------------|----------|
-| Yixin Liu | Audio Mechanic |
-| Ruiqi Xu | User Input Mechanic |
-| Zihan Jiang | Perlin Noise & Randomness Mechanic |
-| Wanni Xiang | Time-Based Mechanic |
->>>>>>> f02c100b5882fbc1f8033330e12b3ed08851516d
+| Team Member | Mechanic |
+
+
+| Yixin Liu | Audio |
+
+| Wanni Xiang | Time-based |
+
+| Zihan Jiang | Perlin noise and randomness |
+
+| Ruiqi Xu | User input |
