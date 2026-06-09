@@ -10,7 +10,7 @@ Instead of reproducing the artwork exactly, we reinterpret it as a dynamic digit
 
 ### Original Artwork
 
-![Composition VIII](kandinsky.jpg)
+![Composition VIII](libraries/kandinsky.jpg)
 
 ### Additional Inspiration
 
