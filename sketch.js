@@ -20,15 +20,16 @@ function setup() {
 function draw() {
   // Kandinsky's cream/off-white background
   background(40, 8, 96);
-
   if (inputController) {
     inputController.update();
     inputController.display();
   }
-  
+
   drawPerlinRandomMechanic();
   drawTimeMechanic();
-  // Draw audio mechanic (circles)
+
+  // Force reset colorMode before drawing audio circles
+  colorMode(HSB, 360, 100, 100, 100);
   drawAudio();
 }
 
