@@ -128,11 +128,29 @@ function drawCentreSystem() {
   push();
   translate(620, 410);
   let pulse = map(noise(centreNoise), 0, 1, -30, 70);
+  drawTriangleBehindCentre(pulse);
   drawCentreGradient(pulse);
   drawOuterRings(pulse);
   drawPointers();
   centreNoise += 0.005;
   pop();
+}
+
+function drawTriangleBehindCentre(pulse) {
+
+  let c = color("#E2D8C7");
+  c.setAlpha(180);
+
+  noStroke();
+  fill(c);
+
+  let offset = pulse * 0.15;
+
+  triangle(
+    -220 - offset, 120,
+    60, -170 - offset,
+    180 + offset, 90
+  );
 }
 
 function drawCentreGradient(pulse) {
@@ -185,21 +203,54 @@ function drawOuterRings(pulse) {
 function drawPointers() {
   for (let p of pointers) {
     let len = p.baseLength + map(noise(p.n), 0, 1, -25, 38);
-    push();
-    rotate(p.angle);
-    let c = color(p.col);
+
+    drawSegmentedPointer(p, len);
+
+    p.angle += p.speed;
+    p.n += 0.006;
+  }
+}
+
+function drawSegmentedPointer(p, len) {
+  push();
+  rotate(p.angle);
+  let segmentCount = 7;
+  let gap = 1.2;
+  let startX = p.inner;
+  let availableLength = len;
+  let segmentLength = availableLength / segmentCount - gap;
+
+  for (let i = 0; i < segmentCount; i++) {
+    let x = startX + i * (segmentLength + gap);
+    let t = i / (segmentCount - 1);
+    let c = getPointerSegmentColour(p, i, t);
     c.setAlpha(215);
     noStroke();
     fill(c);
-    beginShape();
-    vertex(p.inner, -p.startW / 2);
-    vertex(p.inner + len, -p.endW / 2);
-    vertex(p.inner + len, p.endW / 2);
-    vertex(p.inner, p.startW / 2);
-    endShape(CLOSE);
-    pop();
-    p.angle += p.speed;
-    p.n += 0.006;
+    let segmentHeight = lerp(p.startW, p.endW, t);
+    rect(
+      x,
+      -segmentHeight / 2,
+      segmentLength,
+      segmentHeight
+    );
+  }
+
+  pop();
+}
+
+function getPointerSegmentColour(p, index, t) {
+  let base = color(p.col);
+  let cream = color("#F1E5CC");
+  let black = color("#2A2A2A");
+
+  // Alternating blocks create a Kandinsky-like grid rhythm.
+  if (index % 3 === 0) {
+    return base;
+  } else if (index % 3 === 1) {
+    return lerpColor(base, cream, 0.45);
+  } else {
+    return lerpColor(base, black, 0.35);
   }
 }
 
