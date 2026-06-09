@@ -3,29 +3,32 @@
 // Concentric circles inspired by Kandinsky's Composition VIII
 // Driven by p5.js FFT audio analysis
 
-let fft;
-let music;
-let isPlaying = false;
-let amplitude;
+// Rename all global variables to avoid conflict with other scripts
+let audioFft;
+let audioMusic;
+let audioIsPlaying = false;
+let audioAmplitude;
 
 function preloadAudio() {
-  music = loadSound('music.mp3');
+  audioMusic = loadSound('music.mp3');
 }
 
 function setupAudio() {
-  fft = new p5.FFT(0.8);
-  amplitude = new p5.Amplitude();
-  // Bind spectrum and volume analyzer to the loaded audio file
-  fft.setInput(music);
-  amplitude.setInput(music);
+  audioFft = new p5.FFT(0.8);
+  audioAmplitude = new p5.Amplitude();
+  // Bind analyzer to our audio file
+  audioFft.setInput(audioMusic);
+  audioAmplitude.setInput(audioMusic);
 }
 
 function drawAudio() {
-  fft.analyze();
+  audioFft.analyze();
+  // Debug: check bass value in browser console (F12)
+  console.log("Bass Energy:", audioFft.getEnergy("bass"), "Playing:", audioIsPlaying);
 
-  let bass   = fft.getEnergy("bass")   / 255;
-  let mid    = fft.getEnergy("mid")    / 255;
-  let vol    = constrain(amplitude.getLevel() * 3, 0, 1);
+  let bass   = audioFft.getEnergy("bass")   / 255;
+  let mid    = audioFft.getEnergy("mid")    / 255;
+  let vol    = constrain(audioAmplitude.getLevel() * 3, 0, 1);
 
   // Top-left main circle - responds to bass frequencies
   drawMainCircle(
@@ -142,12 +145,12 @@ function drawSegmentCircle(cx, cy, size, hues, energy) {
 
 function audioKeyPressed() {
   if (key === ' ') {
-    if (isPlaying) {
-      music.pause();
-      isPlaying = false;
+    if (audioIsPlaying) {
+      audioMusic.pause();
+      audioIsPlaying = false;
     } else {
-      music.play();
-      isPlaying = true;
+      audioMusic.play();
+      audioIsPlaying = true;
     }
   }
 }
