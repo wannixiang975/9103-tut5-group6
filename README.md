@@ -35,30 +35,28 @@ Our project will reinterpret this abstract composition as a dynamic visual syste
 | Ruiqi Xu | User input |
 
 ---
-### 🎵 Audio: Yixin Liu
 
-The audio mechanic uses p5.js's FFT (Fast Fourier Transform) analysis to read 
-the volume and frequency content of a music track in real time, driving visual 
-changes in the circles and rings inspired by Kandinsky's Composition VIII. 
-Kandinsky believed that art and music were deeply connected — he described 
-colours and shapes as having their own "sound". This mechanic brings that 
-philosophy to life: each circle in the composition pulses and expands in size 
-according to the bass frequencies of the music, while the colour of the rings 
-shifts along the hue spectrum in response to the treble frequencies. When the 
-music is loud and energetic, the circles grow and glow with vivid colour; during 
-quieter moments, they contract and fade, breathing with the rhythm of the track. 
-Users can press the spacebar to play or pause the music, directly controlling 
-the energy and visual dynamism of the entire composition. This mechanic 
-reinforces the core idea of the reinterpretation: that Kandinsky's geometric 
-world is not static, but alive with sound and movement.
+### 🎵 Audio: Yixin Liu
+This audio interactive module actualizes Wassily Kandinsky's synesthetic theory that geometric shapes and colors possess inherent sonic characteristics, reanimating his static work *Composition VIII* into a sound-responsive animated piece.
+
+Developed with the `p5.sound` library, this system uses **p5.FFT frequency analysis** and amplitude detection to parse real-time audio data. The original classical piano audio file downloaded from Tunetank is renamed to `music.mp3` for simplified file referencing, which is loaded and read by the program. Audio signals are split into bass, midrange, and treble frequency bands, each mapped to exclusive circular visual elements on the canvas:
+1. The prominent large circle in the upper-left corner (black outer body, purple inner circle, diffused red outer glow) reacts to bass frequency energy and overall volume. Its diameter expands and contracts with bass intensity, while the range and opacity of the red outer halo strengthen alongside rising bass power.
+2. Five segmented colorful annular rings distributed across the canvas are assigned to different frequency ranges:
+   - Red-orange segmented circle responds to bass frequencies
+   - Yellow and pale light-blue segmented circles are driven by mid-range audio energy
+   - Blue and grey-toned segmented circles follow treble frequency changes
+The ring width, color saturation and brightness of each segmented circle dynamically scale up and down based on the energy level of its corresponding frequency band.
+
+Users can press the **Spacebar** to play or pause the piano audio track to manually control the whole visual rhythm. When the piano melody is loud and energetic, all circular shapes swell in size with highly saturated bright colors; during soft, quiet passages of the piano piece, elements shrink and colors fade gently, letting the entire abstract composition breathe and flow synchronously with the cadence of classical piano music.
 
 ## References
 #### References
-
-- [p5.FFT Reference](https://p5js.org/reference/p5.sound/p5.FFT/) — Official p5.js FFT documentation
-- [p5.sound Library](https://p5js.org/reference/p5.sound/) — Official p5.sound library reference
-- [Kandinsky and the Spirituality of Colour](https://www.wassilykandinsky.net/music.php) — Kandinsky's theory on the connection between music and visual art
-- Original artwork: *Composition VIII* (1923) by Wassily Kandinsky
+- [p5.FFT Official Documentation](https://p5js.org/reference/p5.sound/p5.FFT/)
+- [p5.sound Full Library Reference](https://p5js.org/reference/p5.sound/p5.sound/)
+- [p5.Amplitude Reference](https://p5js.org/reference/p5.sound/p5.Amplitude/)
+- Kandinsky's synesthesia and art theory: [Wassily Kandinsky - Music and Colour](https://www.wassilykandinsky.net/music.php)
+- Original Artwork Reference: *Composition VIII*, 1923, Wassily Kandinsky
+- Audio Source: Classical piano track originally named `tunetank-piano-classical-music-347514` from Tunetank, renamed locally to `music.mp3` for project use
 
 
 ##  Time-based Mechanic
