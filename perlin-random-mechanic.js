@@ -1,183 +1,212 @@
 // perlin-random-mechanic.js
 // Mechanic: Perlin Noise + Randomness
-// This file controls the random strip grids and the radial Perlin speaker.
+//
+// Randomness:
+// - Creates random block colours, sizes, and pointer positions.
+//
+// Perlin Noise:
+// - Smoothly changes block lengths.
+// - Controls the breathing centre circle.
+// - Controls dynamic outer rings.
+// - Controls pointer length.
 
+
+// -------------------------
+// Global data
+// -------------------------
 let perlinPalette = [];
-let randomStrips = [];
-let radialRays = [];
+let leftBlocks = [];
+let rightBlocks = [];
+let pointers = [];
+let centreNoise;
+let centreGradientSet;
 
+
+// -------------------------
+// Main functions
+// -------------------------
 function setupPerlinRandomMechanic() {
   perlinPalette = [
-    color("#B86A5E"),
-    color("#D6A94E"),
-    color("#6E8FAF"),
-    color("#7F9A72"),
-    color("#8B6FA3"),
-    color("#A48B6A"),
-    color("#D9C7A3"),
-    color("#2A2A2A"),
-    color("#F1E5CC")
+    color("#B86A5E"), 
+    color("#D6A94E"), 
+    color("#6E8FAF"), 
+    color("#7F9A72"), 
+    color("#8B6FA3"), 
+    color("#A48B6A"), 
+    color("#D9C7A3"), 
+    color("#2A2A2A"), 
+    color("#F1E5CC")  
   ];
-
-  createRandomStrips();
-  createRadialRays();
+  resetPerlinRandomMechanic();
+  centreNoise = random(1000);
 }
 
 function drawPerlinRandomMechanic() {
-  drawLeftRandomStrips();
-  drawRightRandomStrips();
-  drawRadialSpeaker();
+  drawBlockGroup(leftBlocks, 245, 580, -55, -18, 28, 0.0035);
+  drawBlockGroup(rightBlocks, 745, 145, -18, -28, 45, 0.0028);
+  drawCentreSystem();
 }
 
-// -------------------------
-// Random strip grids
-// -------------------------
 
-function createRandomStrips() {
-  randomStrips = [];
+// -------------------------
+// Create random data
+// -------------------------
+function resetPerlinRandomMechanic() {
+  leftBlocks = createBlocks(11, 70, 120, 13, 18, 18);
+  rightBlocks = createBlocks(8, 160, 260, 12, 17, 22);
+  pointers = createPointers();
+  centreGradientSet = random([
+    ["#F1E5CC", "#8B6FA3", "#2A2A2A"], // cream → purple → black
+    ["#F1E5CC", "#B86A5E", "#2A2A2A"], // cream → red → black
+    ["#F1E5CC", "#6E8FAF", "#2A2A2A"], // cream → blue → black
+    ["#F1E5CC", "#7F9A72", "#2A2A2A"]  // cream → green → black
+  ]);
+}
 
-  for (let i = 0; i < 22; i++) {
-    randomStrips.push({
-      noiseOffset: random(1000),
-      colour: random(perlinPalette),
-      baseLength: random(100, 240),
-      height: random(10, 18)
+function createBlocks(count, minW, maxW, minH, maxH, gap) {
+  let blocks = [];
+  for (let i = 0; i < count; i++) {
+    blocks.push({
+      x: random(-4, 4),
+      y: i * gap,
+      baseW: random(minW, maxW),
+      h: random(minH, maxH),
+      col: random(perlinPalette),
+      n: random(1000)
     });
   }
+  return blocks;
 }
 
-function drawLeftRandomStrips() {
-  push();
-  translate(260, 560);
-  rotate(radians(-55));
-
-  for (let i = 0; i < 10; i++) {
-    let s = randomStrips[i];
-    let len = s.baseLength + map(noise(s.noiseOffset), 0, 1, -25, 50);
-
-    drawStraightStrip(0, i * 20, len, s.height, s.colour);
-    s.noiseOffset += 0.003;
+function createPointers() {
+  let pointerColours = ["#B86A5E", "#7F9A72", "#2A2A2A"];
+  let newPointers = [];
+  for (let i = 0; i < 3; i++) {
+    newPointers.push({
+      angle: random(TWO_PI),
+      speed: random(0.0018, 0.0042),
+      baseLength: random(105, 145),
+      inner: random(16, 24),
+      startW: random(8, 12),
+      endW: random(22, 30),
+      col: color(pointerColours[i]),
+      n: random(1000)
+    });
   }
+  return newPointers;
+}
 
+
+// -------------------------
+// Block groups
+// -------------------------
+function drawBlockGroup(blocks, x, y, angle, minShift, maxShift, speed) {
+  push();
+  translate(x, y);
+  rotate(radians(angle));
+  for (let b of blocks) {
+    let w = b.baseW + map(noise(b.n), 0, 1, minShift, maxShift);
+    drawBlock(b.x, b.y, w, b.h, b.col);
+    b.n += speed;
+  }
   pop();
 }
 
-function drawRightRandomStrips() {
-  push();
-  translate(760, 150);
-  rotate(radians(-18));
-
-  for (let i = 10; i < 22; i++) {
-    let s = randomStrips[i];
-    let len = s.baseLength + map(noise(s.noiseOffset), 0, 1, -35, 65);
-
-    drawStraightStrip(0, (i - 10) * 18, len, s.height, s.colour);
-    s.noiseOffset += 0.003;
-  }
-
-  pop();
-}
-
-function drawStraightStrip(x, y, w, h, col) {
+function drawBlock(x, y, w, h, col) {
   let c = color(col);
-  c.setAlpha(205);
-
+  c.setAlpha(210);
   noStroke();
   fill(c);
   rect(x, y, w, h);
 }
 
+
 // -------------------------
-// Radial Perlin speaker
+// Centre system
 // -------------------------
-
-function createRadialRays() {
-  radialRays = [];
-
-  let rayColours = [
-    color("#B86A5E"),
-    color("#D6A94E"),
-    color("#6E8FAF")
-  ];
-
-  for (let i = 0; i < 3; i++) {
-    radialRays.push({
-      angle: random(TWO_PI),
-      colour: rayColours[i],
-      noiseOffset: random(1000),
-      baseLength: random(95, 145),
-      startWidth: random(7, 12),
-      endWidth: random(18, 28)
-    });
-  }
-}
-
-function drawRadialSpeaker() {
+function drawCentreSystem() {
   push();
-  translate(620, 420);
-  rotate(radians(-18));
-
-  drawSpeakerCircle();
-
-  for (let r of radialRays) {
-    drawRadialRay(r);
-    r.noiseOffset += 0.008;
-  }
-
+  translate(620, 410);
+  let pulse = map(noise(centreNoise), 0, 1, -30, 70);
+  drawCentreGradient(pulse);
+  drawOuterRings(pulse);
+  drawPointers();
+  centreNoise += 0.005;
   pop();
 }
 
-function drawSpeakerCircle() {
-  noFill();
-
-  strokeWeight(8);
-  stroke("#2A2A2A");
-  ellipse(0, 0, 110, 110);
-
-  strokeWeight(5);
-  stroke("#6E8FAF");
-  arc(0, 0, 96, 96, radians(210), radians(320));
-
-  stroke("#D6A94E");
-  arc(0, 0, 96, 96, radians(120), radians(180));
-
-  stroke("#F1E5CC");
-  arc(0, 0, 96, 96, radians(20), radians(60));
-
+function drawCentreGradient(pulse) {
   noStroke();
-  fill("#F1E5CC");
-  ellipse(0, 0, 70, 70);
+  let size = 58 + pulse;
+  for (let r = size; r > 0; r--) {
+    let t = map(r, size, 0, 0, 1);
+    let cream = color(centreGradientSet[0]);
+    let accent = color(centreGradientSet[1]);
+    let black = color(centreGradientSet[2]);
+    let c;
+    if (t < 0.6) {
+      c = lerpColor(cream, accent, t / 0.6);
+    } else {
+      c = lerpColor(accent, black, (t - 0.6) / 0.4);
+    }
+    c.setAlpha(120);
+    fill(c);
+    ellipse(0, 0, r * 2, r * 2);
+  }
+}
 
+function drawOuterRings(pulse) {
+  noFill();
+  strokeCap(ROUND);
+  for (let i = 0; i < 7; i++) {
+    let ringNoise = noise(centreNoise + i * 0.45);
+    let ringSize =
+      96 +
+      i * 8 +
+      pulse +
+      map(ringNoise, 0, 1, -18, 25);
+    let alpha = map(i, 0, 6, 190, 30);
+    let weight = map(i, 0, 6, 5.5, 1);
+    let c = color("#2A2A2A");
+    c.setAlpha(alpha);
+    stroke(c);
+    strokeWeight(weight);
+    ellipse(0, 0, ringSize, ringSize);
+  }
+  noStroke();
   fill("#2A2A2A");
   ellipse(0, 0, 18, 18);
 }
 
-function drawRadialRay(ray) {
-  let len = ray.baseLength + map(noise(ray.noiseOffset), 0, 1, -30, 60);
 
-  let inner = 22;
-  let outer = inner + len;
-
-  push();
-  rotate(ray.angle);
-
-  let c = color(ray.colour);
-  c.setAlpha(215);
-  fill(c);
-  noStroke();
-
-  beginShape();
-  vertex(inner, -ray.startWidth / 2);
-  vertex(outer, -ray.endWidth / 2);
-  vertex(outer, ray.endWidth / 2);
-  vertex(inner, ray.startWidth / 2);
-  endShape(CLOSE);
-
-  pop();
+// -------------------------
+// Pointers
+// -------------------------
+function drawPointers() {
+  for (let p of pointers) {
+    let len = p.baseLength + map(noise(p.n), 0, 1, -25, 38);
+    push();
+    rotate(p.angle);
+    let c = color(p.col);
+    c.setAlpha(215);
+    noStroke();
+    fill(c);
+    beginShape();
+    vertex(p.inner, -p.startW / 2);
+    vertex(p.inner + len, -p.endW / 2);
+    vertex(p.inner + len, p.endW / 2);
+    vertex(p.inner, p.startW / 2);
+    endShape(CLOSE);
+    pop();
+    p.angle += p.speed;
+    p.n += 0.006;
+  }
 }
 
-// Optional interaction: click to regenerate random colours and ray positions
+
+// -------------------------
+// Optional interaction
+// -------------------------
 function perlinRandomMousePressed() {
-  createRandomStrips();
-  createRadialRays();
+  resetPerlinRandomMechanic();
 }
