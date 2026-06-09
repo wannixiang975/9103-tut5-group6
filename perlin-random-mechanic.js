@@ -39,6 +39,13 @@ function setupPerlinRandomMechanic() {
 }
 
 function drawPerlinRandomMechanic() {
+  push();
+  colorMode(RGB, 255, 255, 255, 255); // Add RGB to protect the mechanic.
+  drawBlockGroup(leftBlocks, 245, 580, -55, -18, 28, 0.0035);
+  drawBlockGroup(rightBlocks, 745, 145, -18, -28, 45, 0.0028);
+  drawCentreSystem();
+  pop();
+}
   drawBlockGroup(leftBlocks, 245, 580, -55, -18, 28, 0.0035);
   drawBlockGroup(rightBlocks, 745, 145, -18, -28, 45, 0.0028);
   drawCentreSystem();
