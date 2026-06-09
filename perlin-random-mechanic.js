@@ -11,9 +11,6 @@
 // - Controls pointer length.
 
 
-// -------------------------
-// Global data
-// -------------------------
 let perlinPalette = [];
 let leftBlocks = [];
 let rightBlocks = [];
@@ -49,7 +46,7 @@ function drawPerlinRandomMechanic() {
 
 
 // -------------------------
-// Create random data
+// Random data generation
 // -------------------------
 function resetPerlinRandomMechanic() {
   leftBlocks = createBlocks(11, 70, 120, 13, 18, 18);
@@ -72,6 +69,7 @@ function createBlocks(count, minW, maxW, minH, maxH, gap) {
       baseW: random(minW, maxW),
       h: random(minH, maxH),
       col: random(perlinPalette),
+      // Each block has its own noise seed, so lengths animate independently.
       n: random(1000)
     });
   }
@@ -105,6 +103,7 @@ function drawBlockGroup(blocks, x, y, angle, minShift, maxShift, speed) {
   translate(x, y);
   rotate(radians(angle));
   for (let b of blocks) {
+    // Perlin Noise smoothly changes block length over time.
     let w = b.baseW + map(noise(b.n), 0, 1, minShift, maxShift);
     drawBlock(b.x, b.y, w, b.h, b.col);
     b.n += speed;
@@ -127,6 +126,7 @@ function drawBlock(x, y, w, h, col) {
 function drawCentreSystem() {
   push();
   translate(620, 410);
+  // Main breathing value controlling the centre system.
   let pulse = map(noise(centreNoise), 0, 1, -30, 70);
   drawTriangleBehindCentre(pulse);
   drawCentreGradient(pulse);
@@ -137,15 +137,11 @@ function drawCentreSystem() {
 }
 
 function drawTriangleBehindCentre(pulse) {
-
   let c = color("#E2D8C7");
   c.setAlpha(180);
-
   noStroke();
   fill(c);
-
   let offset = pulse * 0.15;
-
   triangle(
     -220 - offset, 120,
     60, -170 - offset,
@@ -156,6 +152,7 @@ function drawTriangleBehindCentre(pulse) {
 function drawCentreGradient(pulse) {
   noStroke();
   let size = 58 + pulse;
+  // Layered circles create a soft radial gradient.
   for (let r = size; r > 0; r--) {
     let t = map(r, size, 0, 0, 1);
     let cream = color(centreGradientSet[0]);
@@ -198,14 +195,13 @@ function drawOuterRings(pulse) {
 
 
 // -------------------------
-// Pointers
+// Segmented rotating pointers
 // -------------------------
 function drawPointers() {
   for (let p of pointers) {
+    // Pointer length is controlled by Perlin Noise while rotation uses independent speeds.
     let len = p.baseLength + map(noise(p.n), 0, 1, -25, 38);
-
     drawSegmentedPointer(p, len);
-
     p.angle += p.speed;
     p.n += 0.006;
   }
@@ -235,7 +231,6 @@ function drawSegmentedPointer(p, len) {
       segmentHeight
     );
   }
-
   pop();
 }
 
@@ -243,8 +238,6 @@ function getPointerSegmentColour(p, index, t) {
   let base = color(p.col);
   let cream = color("#F1E5CC");
   let black = color("#2A2A2A");
-
-  // Alternating blocks create a Kandinsky-like grid rhythm.
   if (index % 3 === 0) {
     return base;
   } else if (index % 3 === 1) {
@@ -256,8 +249,9 @@ function getPointerSegmentColour(p, index, t) {
 
 
 // -------------------------
-// Optional interaction
+// Interaction
 // -------------------------
 function perlinRandomMousePressed() {
+  // Regenerate all random values.
   resetPerlinRandomMechanic();
 }
