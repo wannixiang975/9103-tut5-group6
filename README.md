@@ -1,33 +1,146 @@
-# 9103-tut5-group6
-# Quiz 9 – Final Project Pitch
+# Kandinsky Composition VIII – Interactive Reinterpretation
 
-## Project Title
+## Inspiration
 
-**Dynamic Abstract Composition**
+Our project is inspired by **Wassily Kandinsky's Composition VIII (1923)**.
 
----
+Kandinsky's work uses geometric shapes, circles, lines, arcs, and colour relationships to create rhythm and balance within a static composition. We were interested in exploring how these visual elements could become interactive through code.
 
-## Part 1: Project Direction
+Instead of reproducing the artwork exactly, we reinterpret it as a dynamic digital experience. Through animation, sound, randomness, and user interaction, the composition gradually changes over time while still preserving the visual language and structure of the original artwork.
 
-### Project Path
+### Original Artwork
 
-Our team has chosen to **reinterpret an existing artwork**.
+![Composition VIII](https://upload.wikimedia.org/wikipedia/commons/0/08/Vassily_Kandinsky%2C_1923_-_Composition_8.jpg)
 
-### Existing Artwork
+### Additional Inspiration
 
-Our project is inspired by an abstract composition in the style of **Wassily Kandinsky**, using circles, lines, triangles, grids, arcs, and geometric arrangements.
-
-### Project Vision
-
-Our project will reinterpret this abstract composition as a dynamic visual system. The original artwork uses circles, lines, triangles, grids, and arcs to create rhythm, movement, and balance. Instead of copying the image exactly, we want to bring these visual elements to life through code. Circles can pulse, lines can appear one by one, arcs can rotate, and small shapes can respond to sound, randomness, time, and user input. Our goal is to make the artwork feel like it is being constructed live on the screen. This allows the audience to see how simple geometric elements can build a complex and energetic composition.
+- Kandinsky's use of geometric abstraction
+- Motion graphics and generative art
+- Interactive p5.js artworks
+- Audio-reactive visualisations
 
 ---
 
-## Part 2: Mechanics
+# Techniques
 
-### Team Members and Mechanics
+This project was developed using **p5.js** and combines four mechanics into one interactive artwork.
+
+### Key Techniques Used
+
+- `frameCount()` for time-based animation
+- `lerp()` for smooth line growth and transitions
+- `sin()` for cyclical motion and pulsing effects
+- `noise()` (Perlin Noise) for smooth organic movement
+- `random()` and `randomSeed()` for controlled randomness
+- `p5.FFT()` for audio frequency analysis
+- `mousePressed()`, `mouseDragged()` and keyboard input
+- `push()`, `pop()`, `translate()` and `rotate()` for geometric transformations
+
+### Team Design Decisions
+
+Our team decided to maintain the recognisable structure of Kandinsky's Composition VIII while introducing movement and interaction.
+
+Instead of dramatically altering the artwork, we focused on making the geometric elements feel alive through gradual animation, sound response, randomness, and user participation.
+
+---
+
+# Mechanic Ownership
+
+## Audio Mechanic – Team Member A
+
+The audio mechanic uses **p5.FFT** to analyse frequency information from a sound file.
+
+Different frequency bands influence the behaviour of visual elements such as circles and shapes. As the audio changes, the composition responds dynamically, creating a visual representation of sound.
+
+---
+
+
+## Time-Based Mechanic – Wanni Xiang
+
+The time mechanic gradually builds the composition over time using `frameCount()`.
+
+Lines appear progressively using `lerp()`, geometric elements rotate using `rotate()`, and subtle motion is created through `sin()` and `noise()`. A low-saturation colour palette was used to maintain a vintage Kandinsky-inspired appearance.
+
+The purpose of this mechanic is to create a sense of growth and development, allowing the composition to slowly reveal itself rather than appearing all at once.
+
+---
+
+# AI Acknowledgement
+
+This project used **ChatGPT** to assist with:
+
+- Understanding p5.js functions and syntax
+- Debugging code
+- Improving code structure and modularity
+- Writing comments and documentation
+- Refining animation techniques
+
+All AI-generated suggestions were reviewed, modified, and integrated by team members before implementation.
+
+Example code comment:
+
+
+---
+
+# External References
+
+## p5.js Reference
+
+https://p5js.org/reference/
+
+Used throughout the project to learn and implement p5.js functions.
+
+---
+
+## p5.Sound Library
+
+https://p5js.org/reference/p5.sound/
+
+Used for loading and analysing audio data.
+
+---
+
+## p5.FFT Documentation
+
+https://p5js.org/reference/p5.sound/p5.FFT/
+
+Used to implement the audio-reactive mechanic.
+
+---
+
+## Perlin Noise Documentation
+
+https://p5js.org/reference/p5/noise/
+
+Used to create smooth organic movement within the randomness and time mechanics.
+
+Example code comment:
+
+```javascript
+// Perlin noise technique adapted from:
+// https://p5js.org/reference/p5/noise/
+```
+
+---
+
+# Interaction Instructions
+
+## How to Experience the Work
+
+1. Open the project in a web browser.
+2. Press the Space bar to start the audio.
+3. Watch the composition gradually develop over time.
+4. Move and drag the mouse to interact with visual elements.
+5. Observe how sound, time, randomness, and user input influence one another.
+
+Because the project uses randomness and Perlin Noise, every experience will be slightly different.
+
+---
+
+# Team Members
 
 | Team Member | Mechanic |
+<<<<<<< HEAD
 |---|---|
 | Yixin Liu | Audio |
 | Wanni Xiang | Time-based |
@@ -106,3 +219,10 @@ All four mechanics will share the same canvas and visual language based on the o
 ## Final Concept Summary
 
 This project reinterprets an abstract geometric artwork as a live animated composition. We will use simple p5.js shapes and beginner-friendly coding techniques to create movement, sound response, randomness, and interaction. The final work will keep the visual spirit of the original image while transforming it into a digital system that changes over time.
+=======
+|------------|----------|
+| Yixin Liu | Audio Mechanic |
+| Ruiqi Xu | User Input Mechanic |
+| Zihan Jiang | Perlin Noise & Randomness Mechanic |
+| Wanni Xiang | Time-Based Mechanic |
+>>>>>>> f02c100b5882fbc1f8033330e12b3ed08851516d
