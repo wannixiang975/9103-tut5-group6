@@ -22,46 +22,44 @@ function drawAudio() {
 
   let bass   = fft.getEnergy("bass")   / 255;
   let mid    = fft.getEnergy("mid")    / 255;
-  let treble = fft.getEnergy("treble") / 255;
   let vol    = constrain(amplitude.getLevel() * 3, 0, 1);
 
-  // ---- 图1效果：左上角大圆 ----
-  // 黑色大圆 + 紫色内圆 + 红色外光晕
+  // 左上角大圆 - 响应bass
   drawMainCircle(
     0.1 * width, 0.32 * height,
     (0.2 + bass * 0.08) * min(width, height),
     bass, vol
   );
 
-  // ---- 图2/3效果：其他彩色分段圆 ----
+  // 其他圆 - 全部响应bass
   drawSegmentCircle(
     0.12 * width, 0.46 * height,
     (0.09 + bass * 0.04) * min(width, height),
-    [0, 15, 30], bass  // 红/橙色调
+    [0, 15, 30], bass
   );
 
   drawSegmentCircle(
     0.09 * width, 0.78 * height,
-    (0.08 + mid * 0.04) * min(width, height),
-    [45, 55, 35], mid  // 黄色调
+    (0.08 + bass * 0.04) * min(width, height),
+    [45, 55, 35], bass
   );
 
   drawSegmentCircle(
     0.72 * width, 0.48 * height,
-    (0.11 + treble * 0.04) * min(width, height),
-    [210, 230, 190], treble  // 蓝色调
+    (0.11 + bass * 0.04) * min(width, height),
+    [210, 230, 190], bass
   );
 
   drawSegmentCircle(
     0.5 * width, 0.85 * height,
-    (0.06 + mid * 0.03) * min(width, height),
-    [200, 220, 180], mid  // 浅蓝色调
+    (0.06 + bass * 0.03) * min(width, height),
+    [200, 220, 180], bass
   );
 
   drawSegmentCircle(
     0.81 * width, 0.82 * height,
-    (0.1 + treble * 0.04) * min(width, height),
-    [0, 0, 0], treble  // 灰色调
+    (0.1 + bass * 0.04) * min(width, height),
+    [0, 0, 0], bass
   );
 }
 
@@ -116,18 +114,17 @@ function drawSegmentCircle(cx, cy, size, hues, energy) {
     let startAngle = i * angleStep - 90;
     let endAngle = startAngle + angleStep - 2;
 
-    // 交替使用三种色相
     let hue = hues[i % hues.length];
     let sat = map(energy, 0, 1, 60, 95);
     let bri = map(energy, 0, 1, 70, 100);
 
     fill(hue, sat, bri, 90);
     noStroke();
-    arc(cx, cy, size, size, 
+    arc(cx, cy, size, size,
         radians(startAngle), radians(endAngle), PIE);
   }
 
-  // 白色内圆遮罩，产生环形效果
+  // 白色内圆遮罩
   fill(0, 0, 95, 95);
   ellipse(cx, cy, innerR * 2, innerR * 2);
   pop();
@@ -151,5 +148,6 @@ function audioKeyPressed() {
     }
   }
 }
+
 
 
