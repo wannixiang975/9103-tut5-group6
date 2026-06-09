@@ -201,9 +201,31 @@ For the Perlin Noise and Randomness mechanic, I focused on preserving the compos
 - [p5.js lerp() Reference](https://p5js.org/reference/p5/lerp/)  
 - Original artwork: *Composition VIII* (1923) by Wassily Kandinsky
 
-## User Input Mechanic
+## User Input Mechanic Ruiqi Xu
 
-The user input mechanic will allow viewers to interact with the abstract composition using the mouse or keyboard. For example, when the user clicks on the canvas, a new circle, line, or triangle can appear. Moving the mouse could also influence the direction, size, or colour of nearby shapes. This mechanic makes the viewer part of the composition process rather than only watching the artwork. It connects to the project vision because the final piece is not just a fixed image; it is a system that can change and respond. By adding simple user interaction, the abstract artwork becomes more playful and active, while still using basic geometric elements from the original image.
+My contribution was inspired by interactive digital artworks that encourage audience participation rather than passive viewing. I wanted users to feel connected to the visual composition through simple actions such as moving, clicking, and dragging the mouse.
+
+The visual style of the interaction effects was influenced by the project's Kandinsky-inspired composition. I selected colours and motion behaviours that complement the geometric forms and audio-reactive elements already present in the artwork.
+
+## Techniques
+
+This mechanic was developed using p5.js and object-oriented programming.
+
+### Mouse Trail Effect
+
+As the user moves the mouse, small particles are generated along the cursor path. Each particle has its own velocity, gravity, friction, and lifespan, creating a fading trail effect that makes movement visible on the canvas.
+
+### Ripple Effect
+
+When the user clicks on the canvas, an expanding ripple animation is created. The ripple grows in size while gradually becoming transparent, providing immediate visual feedback.
+
+### Drag-and-Drop Interaction
+
+Users can click and drag the audio-reactive circles to different positions on the screen. This allows them to modify the composition and create their own arrangement of visual elements.
+
+### Audio-Reactive Behaviour
+
+The draggable circles continue to react to audio data while being moved. Circle sizes change according to bass frequencies, creating a connection between user interaction and sound visualisation.
 
 ### User Input References
 
@@ -212,6 +234,14 @@ The user input mechanic will allow viewers to interact with the abstract composi
 - [p5.js mousePressed() Reference](https://p5js.org/reference/p5/mousePressed/) — Official p5.js documentation for detecting mouse clicks.
 - [p5.js keyPressed() Reference](https://p5js.org/reference/p5/keyPressed/) — Official p5.js documentation for detecting keyboard input.
 
+## Interaction Instructions
+Move the mouse around the screen to generate particle trails.
+Click anywhere on the canvas to create ripple effects.
+Click and drag any audio-reactive circle to reposition it.
+Observe how the circles continue responding to music while being moved.
+Experiment with different arrangements and movements to create unique visual outcomes.
+
+## The goal of this mechanic is to transform the viewer into an active participant who can directly influence the visual composition.
 ---
 
 ## Part 3: Putting It Together
